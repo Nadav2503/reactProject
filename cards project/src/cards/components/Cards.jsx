@@ -1,8 +1,7 @@
-import React from "react";
 import CardComponent from "./card/CardComponent";
 import { Container, Typography } from "@mui/material";
 
-const cards = [
+let cards = [
     {
         _id: "63765801e20ed868a69a62c4",
         title: "first",
@@ -74,19 +73,39 @@ const cards = [
     },
 ];
 
+//cards = [];
 
 export default function Cards() {
-    if (cards || cards.length === 0) {
-        <Typography m={2}>
-            Oops... it seems there are no business cards to display
-        </Typography>
-    }
+    const handleDelete = (id) => {
+        console.log("deleting card " + id);
+    };
 
+    const handleLike = (id) => {
+        console.log("like card " + id);
+    };
+
+    const handleEdit = (id) => {
+        console.log("editing card " + id);
+    };
     return (
-        <Container sx={{ display: "flex", flexWrap: "wrap" }}>
-            {cards.map((card) => (
-                <CardComponent card={card} key={card._id} />
-            ))}
-        </Container>
+        <>
+            {cards && cards.length === 0 ? (
+                <Typography m={2}>
+                    Oops... it seems there are no business cards to display
+                </Typography>
+            ) : (
+                <Container sx={{ display: "flex", flexWrap: "wrap" }}>
+                    {cards.map((card) => (
+                        <CardComponent
+                            card={card}
+                            key={card._id}
+                            handleDelete={handleDelete}
+                            handleLike={handleLike}
+                            handleEdit={handleEdit}
+                        />
+                    ))}
+                </Container>
+            )}
+        </>
     );
 }

@@ -5,14 +5,20 @@ import CallIcon from "@mui/icons-material/Call";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Box, IconButton, CardActions } from "@mui/material";
 
-export default function CardActionBar() {
+export default function CardActionBar({
+    cardId,
+    handleDelete,
+    handleEdit,
+    handleLike,
+}) {
     return (
         <CardActions sx={{ justifyContent: "space-between" }}>
             <Box>
-                <IconButton>
+                <IconButton onClick={() => handleDelete(cardId)}>
                     <DeleteIcon />
                 </IconButton>
-                <IconButton>
+
+                <IconButton onClick={() => handleEdit(cardId)}>
                     <ModeEditIcon />
                 </IconButton>
             </Box>
@@ -20,7 +26,7 @@ export default function CardActionBar() {
                 <IconButton>
                     <CallIcon />
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={() => handleLike(cardId)}>
                     <FavoriteIcon />
                 </IconButton>
             </Box>
