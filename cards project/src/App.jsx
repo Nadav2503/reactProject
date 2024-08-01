@@ -1,15 +1,14 @@
-import Cards from "./cards/components/Cards";
-import Counter from "./sandbox/Counter";
-import EventComponent from "./sandbox/EventComponent";
-import EventComponent2 from "./sandbox/EventComponent2";
-import GridExample from "./sandbox/GridExample";
-import MyUseStateComponent from "./sandbox/MyUseStateComponent";
+import { BrowserRouter } from "react-router-dom";
+import Router from "./routes/Router";
 function App() {
-  const user = null;
   return (
-    <div>
-      <Counter />
-    </div>)
+    <>
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </>
+  )
+
 }
 
 export default App;
