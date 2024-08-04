@@ -1,6 +1,6 @@
 import React from "react";
 import PageHeader from "../components/PageHeader";
-import { Button } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../routes/routesModel";
 
@@ -9,8 +9,24 @@ export default function ErrorPage() {
   return (
     <div>
       <PageHeader title="Error 404" subtitle="page not found" />
-      <Button onClick={() => navigate(ROUTES.ROOT)}>Return to Home page</Button>
-      <Link to={ROUTES.ROOT}>Home</Link>
+      <Container sx={{ mt: 2, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <Container sx={{ flex: 1, mr: 2, textAlign: "center" }}>
+          <Typography variant="h6">
+            Sorry, the page you are looking for does not exist.
+          </Typography>
+          <Container sx={{ mt: 2 }}>
+            <Button
+              variant="contained"
+              onClick={() => navigate(ROUTES.ROOT)}
+            >
+              Return to Home page
+            </Button>
+          </Container>
+        </Container>
+        <Container sx={{ flex: 1 }}>
+          <img src="/images/robot.png" alt="Error" style={{ width: '100%', maxWidth: 400 }} />
+        </Container>
+      </Container>
     </div>
   );
 }

@@ -73,8 +73,6 @@ let cards = [
     },
 ];
 
-//cards = [];
-
 export default function Cards() {
     const handleDelete = (id) => {
         console.log("deleting card " + id);

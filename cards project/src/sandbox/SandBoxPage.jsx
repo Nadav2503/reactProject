@@ -1,13 +1,8 @@
-import React from 'react'
-import PageHeader from '../components/PageHeader'
 
-export default function SandBoxPage() {
+export default function SandboxPage() {
     return (
-        <>
-            <PageHeader
-                title={"My cards"}
-                subtitle={"Welcome to my sandbox page"}
-            />
-        </>
-    )
+        <div>
+
+        </div>
+    );
 }
