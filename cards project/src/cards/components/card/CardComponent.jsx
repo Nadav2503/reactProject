@@ -1,9 +1,11 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
+import { useNavigate } from 'react-router-dom';
 import { CardActionArea, CardHeader } from "@mui/material";
 import CardHeaderComponent from "./CardHeaderComponent";
 import CardBody from "./CardBody";
 import CardActionBar from "./CardActionBar";
+import ROUTES from "../../../routes/routesModel";
 
 export default function CardComponent({
   card,
@@ -11,9 +13,11 @@ export default function CardComponent({
   handleEdit,
   handleLike,
 }) {
+  const navigate = useNavigate();
+
   return (
     <Card sx={{ width: 250, m: 2 }}>
-      <CardActionArea>
+      <CardActionArea onClick={() => navigate(ROUTES.CARD_INFO + '/' + card_id)}>
         <CardHeaderComponent
           image={card.image.url}
           alt={card.image.alt}
