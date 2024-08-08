@@ -17,7 +17,7 @@ export default function CardComponent({
 
   return (
     <Card sx={{ width: 250, m: 2 }}>
-      <CardActionArea onClick={() => navigate(ROUTES.CARD_INFO + '/' + card_id)}>
+      <CardActionArea onClick={() => navigate(ROUTES.CARD_INFO + '/' + card._id)}>
         <CardHeaderComponent
           image={card.image.url}
           alt={card.image.alt}
