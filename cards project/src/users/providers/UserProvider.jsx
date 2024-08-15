@@ -6,8 +6,7 @@ import { createContext } from "react";
 const UserContext = createContext();
 
 export default function UserProvider({ children }) {
-    const [user, setUser] = useState({ firstName: "tzach" });
-
+    const [user, setUser] = useState(null);
     return (
         <UserContext.Provider value={{ user, setUser }}>
             {children}
@@ -20,6 +19,5 @@ export const useUser = () => {
     if (!context) {
         throw new Error("useUser must be used within provider");
     }
-
     return context;
 };

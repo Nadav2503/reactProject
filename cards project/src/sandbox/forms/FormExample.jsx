@@ -1,6 +1,8 @@
-import { Button, Container, TextField } from "@mui/material";
+import { Container } from "@mui/material";
 import Joi from "joi";
-import React, { useState } from "react";
+import useForm from "../../forms/hooks/useForm";
+import Form from "../../forms/components/Form";
+import Input from "../../forms/components/Input";
 
 const initialForm = {
   firstName: "",
@@ -11,42 +13,13 @@ const schema = {
   firstName: Joi.string().min(2),
   lastName: Joi.string().min(2).max(12),
 };
+const printSomething = (something) => {
+  console.log(something);
+};
 
 export default function FormExample() {
-  const [data, setData] = useState(initialForm);
-  const [errors, setErrors] = useState({});
-
-  const handleChange = (e) => {
-    let value = e.target.value;
-    let name = e.target.name;
-
-    const errorMessage = validateProperty(name, value);
-
-    if (errorMessage) {
-      setErrors((prev) => ({ ...prev, [name]: errorMessage }));
-    } else {
-      setErrors((prev) => {
-        let obj = { ...prev };
-        delete obj[name];
-        return obj;
-      });
-    }
-
-    setData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const validateProperty = (name, value) => {
-    let joiSchema = Joi.object({ [name]: schema[name] });
-    let { error } = joiSchema.validate({ [name]: value });
-    return error ? error.details[0].message : null;
-  };
-
-  const validateForm = () => {
-    const joiSchema = Joi.object(schema);
-    const { error } = joiSchema.validate(data);
-    if (error) return false;
-    return true;
-  };
+  const { data, errors, handleChange, validateForm, onSubmit, handleReset } =
+    useForm(initialForm, schema, printSomething);
 
   return (
     <Container
@@ -57,24 +30,29 @@ export default function FormExample() {
         alignItems: "center",
       }}
     >
-      <TextField
-        label="first name"
-        name="firstName"
-        onChange={handleChange}
-        value={data.firstName}
-        error={Boolean(errors.firstName)}
-        helperText={errors.firstName}
-      />
-      <TextField
-        label="last name"
-        name="lastName"
-        onChange={handleChange}
-        value={data.lastName}
-        error={Boolean(errors.lastName)}
-        helperText={errors.lastName}
-      />
+      <Form
+        title="Example form"
+        onSubmit={onSubmit}
+        onReset={handleReset}
+        styles={{ maxWidth: "450px" }}
+        validateForm={validateForm}
+      >
+        <Input
+          label="first name"
+          name="firstName"
+          data={data}
+          error={errors.firstName}
+          onChange={handleChange}
+        />
 
-      <Button disabled={!validateForm()}>Submit</Button>
+        <Input
+          label="last name"
+          name="lastName"
+          data={data}
+          error={errors.lastName}
+          onChange={handleChange}
+        />
+      </Form>
     </Container>
   );
 }

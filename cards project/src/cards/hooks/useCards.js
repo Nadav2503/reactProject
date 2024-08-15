@@ -33,9 +33,35 @@ export default function useCards() {
         }
         setIsLoading(false);
     }, []);
+
+    const handleCreateCard = useCallback(
+        async (cardFromClient) => {
+            setError(null);
+            setIsLoading(true);
+            try {
+                const { data } = await axios.post(
+                    `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards`,
+                    cardFromClient,
+                    { "x-auth-token": localStorage.getItem("my token") }
+                );
+                const card = data;
+                setCard(card);
+                setSnack("success", "A new business card has been created");
+                setTimeout(() => {
+                    navigate(ROUTES.ROOT);
+                }, 1000);
+            } catch (error) {
+                setError(error.message);
+            }
+            setIsLoading(false);
+        },
+        [setSnack, navigate]
+    );
+
     const handleDelete = useCallback((id) => {
         console.log("Card " + id + " deleted");
     }, []);
+
     const handleLike = useCallback((id) => {
         console.log("Card " + id + " has been liked");
     }, []);

@@ -1,60 +1,79 @@
-import React from 'react';
-import { Button, Container, TextField } from '@mui/material';
-import loginSchema from '../models/loginSchema';
-import initialLoginForm from '../helpers/initialForms/initialLoginForm';
-import { Navigate } from 'react-router-dom';
-import ROUTES from '../../routes/routesModel';
-import useForm from '../../froms/hooks/useForm';
+import React from "react";
+import { Link, Navigate } from "react-router-dom";
+import ROUTES from "../../routes/routesModel";
+import { useUser } from "../providers/UserProvider";
+import useForm from "../../forms/hooks/useForm";
+import initialLoginForm from "../helpers/initialForms/initialLoginForm";
+import loginSchema from "../models/loginSchema";
+import { Button, Container, Grid } from "@mui/material";
+import PageHeader from "../../components/PageHeader";
+import Form from "../../forms/components/Form";
+import Input from "../../forms/components/Input";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+
+const handleLogin = (userDetails) => {
+  console.log(userDetails);
+};
 
 export default function LoginPage() {
-    const { data, errors, handleChange, validateForm } = useForm(loginSchema, initialLoginForm);
-    const user = null;
-    if (user) return <Navigate to={ROUTES.ROOT} replace />;
+  const { data, errors, handleChange, handleReset, validateForm, onSubmit } =
+    useForm(initialLoginForm, loginSchema, handleLogin);
 
-    return (
-        <Container
-            sx={{
-                pt: 8,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                maxWidth: '400px',
-                margin: 'auto',
-            }}
+  const { user } = useUser();
+
+  if (user) return <Navigate to={ROUTES.ROOT} replace />;
+
+  return (
+    <Container>
+      <PageHeader
+        title="Welcome to Login page"
+        subtitle="here you can log in"
+      />
+      <Container
+        sx={{
+          paddingTop: 8,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Form
+          title="login"
+          styles={{ maxWidth: "450px" }}
+          to={ROUTES.ROOT}
+          onSubmit={onSubmit}
+          onReset={handleReset}
+          validateForm={validateForm}
         >
-            <TextField
-                label="Email"
-                name="email"
-                onChange={handleChange}
-                value={data.email}
-                error={Boolean(errors.email)}
-                helperText={errors.email}
-                fullWidth
-                margin="normal"
-            />
-            <TextField
-                label="Password"
-                name="password"
-                type="password"
-                onChange={handleChange}
-                value={data.password}
-                error={Boolean(errors.password)}
-                helperText={errors.password}
-                fullWidth
-                margin="normal"
-            />
+          <Input
+            label="email"
+            name="email"
+            type="email"
+            error={errors.email}
+            onChange={handleChange}
+            data={data}
+          />
+          <Input
+            label="password"
+            name="password"
+            type="password"
+            error={errors.password}
+            onChange={handleChange}
+            data={data}
+          />
+          <Grid item xs={12}>
             <Button
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                    if (validateForm()) {
-                    }
-                }}
-                disabled={!validateForm()}
-                fullWidth
+              variant="outlined"
+              component={Link}
+              to={ROUTES.SIGNUP}
+              startIcon={<AccountBoxIcon />}
+              sx={{ width: "100%" }}
             >
-                Login
+              Sign Up
             </Button>
-        </Container>
-    );
+          </Grid>
+        </Form>
+      </Container>
+    </Container>
+  );
 }

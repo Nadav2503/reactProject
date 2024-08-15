@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const loginSchema = Joi.object({
+const loginSchema = {
     email: Joi.string()
         .email({ tlds: { allow: false } })
         .required()
@@ -15,6 +15,6 @@ const loginSchema = Joi.object({
             'string.pattern.base': 'The password must be at least seven characters long and contain an uppercase letter, a lowercase letter, a number, and one of the following characters !@#$%^&*-',
             'any.required': 'Password is required'
         })
-});
+};
 
 export default loginSchema;
