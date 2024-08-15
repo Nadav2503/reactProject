@@ -1,37 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import CardsFeedback from '../components/CardsFeedback';
-import PageHeader from '../../components/PageHeader';
+import React, { useEffect } from "react";
+import PageHeader from "../../components/PageHeader";
+import CardsFeedback from "../components/CardsFeedback";
+import useCards from "../hooks/useCards";
 
 export default function CardsPage() {
-  const [cards, setCards] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState();
-
+  const { cards, error, isLoading, getAllCards, handleDelete, handleLike } =
+    useCards();
   useEffect(() => {
-    const getAllCards = async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get(
-          "https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards"
-        );
-        setCards(response.data);
-      } catch (err) {
-        setError(err.message);
-      }
-      setIsLoading(false);
-
-    };
-
     getAllCards();
   }, []);
-
-  const handleDelete = (id) => {
-    console.log("Card " + id + " deleted");
-  };
-  const handleLike = (id) => {
-    console.log("Card " + id + " has been liked");
-  };
 
   return (
     <div>

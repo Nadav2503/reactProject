@@ -1,27 +1,23 @@
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { BrowserRouter } from "react-router-dom";
-
-import Router from "./routes/Router";
-
-import Layout from "./layout/Layout";
-import UserProvider from "./users/providers/UserProvider";
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import Router from './routes/Router';
+import Layout from './layout/Layout';
+import UserProvider from './users/providers/UserProvider';
+import CustomThemeProvider from './providers/CustomThemeProvider';
+import SnackbarProvider from './providers/SnackbarProvider';
 
 function App() {
-  const theme = createTheme({
-    palette: {
-      mode: "dark",
-    },
-  });
-
   return (
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <UserProvider>
-          <Layout>
-            <Router />
-          </Layout>
-        </UserProvider>
-      </ThemeProvider>
+      <CustomThemeProvider>
+        <SnackbarProvider>
+          <UserProvider>
+            <Layout>
+              <Router />
+            </Layout>
+          </UserProvider>
+        </SnackbarProvider>
+      </CustomThemeProvider>
     </BrowserRouter>
   );
 }

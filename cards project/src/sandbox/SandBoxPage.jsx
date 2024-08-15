@@ -1,12 +1,8 @@
-import DataProvider from "./context/DataProvider";
-import GrandParent from "./context/GrandParent";
-import Countries from "./effects/Countries";
-import Counter from "./memoization/Counter";
-
+import FormExample from "./forms/FormExample";
 export default function SandboxPage() {
     return (
         <div>
-            <GrandParent />
+            <FormExample />
         </div>
     );
 }
