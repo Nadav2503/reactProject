@@ -4,7 +4,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import CallIcon from "@mui/icons-material/Call";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Box, IconButton, CardActions } from "@mui/material";
-import { useUser } from "../../../users/providers/UserProvider";
+import { useCurrentUser } from "../../../users/providers/UserProvider";
 
 export default function CardActionBar({
     cardId,
@@ -12,7 +12,7 @@ export default function CardActionBar({
     handleEdit,
     handleLike,
 }) {
-    const user = useUser();
+    const user = useCurrentUser();
 
     return (
         <CardActions sx={{ justifyContent: "space-between" }}>

@@ -7,6 +7,7 @@ const ROUTES = {
     CARD_INFO: "/card-info",
     CREATE_CARD: "/create-card",
     EDIT_CARD: "/edit-card",
+    ADD_CARDS: "/add-card",
     SIGNUP: "/signup",
     LOGIN: "/login",
     USER_PROFILE: "/user-info",

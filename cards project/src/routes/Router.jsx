@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import CardsPage from "../cards/pages/CardsPage";
 import AboutPage from "../pages/AboutPage";
 import ErrorPage from "../pages/ErrorPage";
@@ -10,7 +10,10 @@ import SandBoxPage from "../sandbox/SandBoxPage";
 import LoginPage from "../users/pages/LoginPage";
 import SignupPage from "../users/pages/SignupPage";
 import CardDetailsPage from "../cards/pages/CardDetailsPage";
+import AddCardPage from "../cards/pages/AddCardPage";
+import { useCurrentUser } from "../users/providers/UserProvider";
 export default function Router() {
+    const { user } = useCurrentUser();
     return (
         <Routes>
             <Route path={ROUTES.ROOT} element={<CardsPage />} />
@@ -21,6 +24,7 @@ export default function Router() {
             <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
             <Route path={ROUTES.MY_CARDS} element={<MyCards />} />
             <Route path={ROUTES.CARD_INFO + "/:id"} element={<CardDetailsPage />} />
+            <Route path={ROUTES.ADD_CARDS} element={user ? <AddCardPage /> : <Navigate to={ROUTES.CARDS} />} />
             <Route path={ROUTES.SANDBOX} element={<SandBoxPage />} />
             <Route path="*" element={<ErrorPage />} />
         </Routes>

@@ -1,18 +1,16 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
-import { useUser } from "../providers/UserProvider";
+import { useCurrentUser } from "../providers/UserProvider";
 import useForm from "../../forms/hooks/useForm";
 import initialSignupForm from "../helpers/initialForms/initialSignupForm";
 import signupSchema from "../models/signupSchema";
 import { Container } from "@mui/material";
 import SignupForm from "../components/SignupForm";
-
-const handleSignup = (userDetails) => {
-  console.log(userDetails);
-};
+import useUsers from "../hooks/useUsers";
 
 export default function SignupPage() {
+  const { isLoading, error, handleSignup } = useUsers();
   const {
     data,
     errors,
@@ -23,7 +21,7 @@ export default function SignupPage() {
     handleChangeCheckBox,
   } = useForm(initialSignupForm, signupSchema, handleSignup);
 
-  const { user } = useUser();
+  const { user } = useCurrentUser();
 
   if (user) return <Navigate to={ROUTES.ROOT} replace />;
 
