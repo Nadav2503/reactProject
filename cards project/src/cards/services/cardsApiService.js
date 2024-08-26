@@ -1,66 +1,96 @@
-import axios from 'axios';
-
+import axios from "axios";
 const apiUrl = "https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards";
 
-export async function getCards() {
+export const getCards = async () => {
     try {
         const response = await axios.get(apiUrl);
-        return response.data;
-    } catch (error) {
-        throw new Error(error.response?.data?.message || 'Failed to fetch cards');
+        const data = response.data;
+        return data;
+    } catch (err) {
+        throw new Error(err.message);
     }
-}
+};
 
-export async function getCard(id) {
+export const getCard = async (cardId) => {
     try {
-        const response = await axios.get(`${apiUrl}/${id}`);
-        return response.data;
-    } catch (error) {
-        throw new Error(error.response?.data?.message || `Failed to fetch card with id ${id}`);
+        const response = await axios.get(`${apiUrl}/${cardId}`);
+        const data = response.data;
+        return data;
+    } catch (err) {
+        throw new Error(err.message);
     }
-}
+};
 
-export async function getMyCards() {
+export const getMyCards = async () => {
     try {
-        const response = await axios.get(`${apiUrl}/my`);
-        return response.data;
+        const response = await axios.get(`${apiUrl}/my-cards`);
+        const data = response.data;
+        return data;
     } catch (error) {
-        throw new Error(error.response?.data?.message || 'Failed to fetch my cards');
+        throw new Error(err.message);
     }
-}
+};
 
-export async function deleteCard(id) {
+export const deleteCard = async (cardId) => {
     try {
-        await axios.delete(`${apiUrl}/${id}`);
-        return;
+        const { data } = await axios.delete(`${apiUrl}/${cardId}`);
+        return data;
     } catch (error) {
-        throw new Error(error.response?.data?.message || `Failed to delete card with id ${id}`);
+        throw new Error(err.message);
     }
-}
+};
 
-export async function createCard(card) {
+export const createCard = async (card) => {
     try {
-        const response = await axios.post(apiUrl, card);
-        return response.data;
+        const { data } = await axios.post(apiUrl, card);
+        return data;
     } catch (error) {
-        throw new Error(error.response?.data?.message || 'Failed to create card');
+        console.error("Error making request:", error.message); // Log error message
+        if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.error("Error response data:", error.response.data);
+            console.error("Error response status:", error.response.status);
+            console.error("Error response headers:", error.response.headers);
+        } else if (error.request) {
+            // The request was made but no response was received
+            console.error("No response received for the request:", error.request);
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error("Error setting up the request:", error.message);
+        }
+        throw new Error(err.message);
     }
-}
+};
 
-export async function editCard(card) {
+export const editCard = async (cardId, normalaizedCard) => {
     try {
-        const response = await axios.put(`${apiUrl}/${card.id}`, card);
-        return response.data;
+        const { data } = await axios.put(`${apiUrl}/${cardId}`, normalaizedCard);
+        return data;
     } catch (error) {
-        throw new Error(error.response?.data?.message || `Failed to edit card with id ${card.id}`);
+        console.error("Error making request:", error.message); // Log error message
+        if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.error("Error response data:", error.response.data);
+            console.error("Error response status:", error.response.status);
+            console.error("Error response headers:", error.response.headers);
+        } else if (error.request) {
+            // The request was made but no response was received
+            console.error("No response received for the request:", error.request);
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error("Error setting up the request:", error.message);
+        }
+        throw new Error(err.message);
     }
-}
+};
 
-export async function changeLikeStatus(id) {
+export const changeLikeStatus = async (cardId) => {
     try {
-        const response = await axios.patch(`${apiUrl}/${id}/like`);
-        return response.data;
+        const { data } = await axios.patch(`${apiUrl}/${cardId}`);
+        return data;
     } catch (error) {
-        throw new Error(error.response?.data?.message || `Failed to change like status for card with id ${id}`);
+        throw new Error(err.message);
     }
-}
+};

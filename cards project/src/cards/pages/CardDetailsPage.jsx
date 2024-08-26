@@ -15,6 +15,7 @@ export default function CardDetailsPage() {
 
     if (isLoading) return <Spinner />;
     if (error) return <Error errorMessage={error} />;
+    if (!card) return <Error errorMessage="Card not found" />;
 
     return (
         <Container sx={{ mt: 4 }}>

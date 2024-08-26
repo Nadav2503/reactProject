@@ -2,7 +2,7 @@ import Joi from "joi";
 
 const urlRegex = /^(https?:\/\/.+)$|(^.*\.(png|jpg|jpeg|gif|webp|svg))$/i;
 
-export const cardSchema = {
+const cardSchema = {
     title: Joi.string().min(2).max(256).required(),
     subtitle: Joi.string().min(2).max(256).required(),
     description: Joi.string().min(2).max(1024).required(),
@@ -30,3 +30,5 @@ export const cardSchema = {
     houseNumber: Joi.number().required(),
     zip: Joi.number(),
 };
+
+export default cardSchema;

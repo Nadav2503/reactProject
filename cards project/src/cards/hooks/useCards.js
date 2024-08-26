@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useSnack } from '../../providers/SnackbarProvider';
+import { useNavigate } from "react-router-dom";
 import {
     getCards,
     getCard,
@@ -16,6 +17,7 @@ export default function useCards() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const setSnack = useSnack();
+    const navigate = useNavigate();
     useAxios();
 
     const getAllCards = useCallback(async () => {
@@ -59,19 +61,25 @@ export default function useCards() {
         }
     }, [setSnack]);
 
-    const handleEditCard = useCallback(async (cardFromClient) => {
-        setIsLoading(true);
-        setError(null);
-        try {
-            const data = await editCard(cardFromClient);
-            setCard(data);
-            setSnack('success', 'Card has been updated');
-        } catch (err) {
-            setError(err.message);
-        } finally {
+    const handleEditCard = useCallback(
+        async (cardId, cardFromClient) => {
+            setIsLoading(true);
+
+            try {
+                const card = await editCard(cardId, normalizeCard(cardFromClient));
+                setCard(card);
+                setSnack("success", "The business card has been successfully updated");
+                setTimeout(() => {
+                    navigate(ROUTES.ROOT);
+                }, 1000);
+            } catch (error) {
+                setError(error.message);
+            }
             setIsLoading(false);
-        }
-    }, [setSnack]);
+        },
+        [setSnack, navigate]
+    );
+
 
     const handleDelete = useCallback(async (id) => {
         setIsLoading(true);

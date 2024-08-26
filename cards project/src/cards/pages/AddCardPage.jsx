@@ -1,7 +1,7 @@
 import React from 'react';
 import CardForm from '../components/CardForm';
 import initialCardForm from '../helpers/initialForms/initialCardForm';
-import { cardSchema } from '../models/cardSchema';
+import cardSchema from '../models/cardSchema';
 import useForm from '../../forms/hooks/useForm';
 
 export default function AddCardPage() {

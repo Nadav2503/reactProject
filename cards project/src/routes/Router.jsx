@@ -11,9 +11,11 @@ import LoginPage from "../users/pages/LoginPage";
 import SignupPage from "../users/pages/SignupPage";
 import CardDetailsPage from "../cards/pages/CardDetailsPage";
 import AddCardPage from "../cards/pages/AddCardPage";
-import { useCurrentUser } from "../users/providers/UserProvider";
+import EditCardPage from "../cards/pages/EditCardPage";
+import EditUserPage from '../users/pages/EditUserPage';
+import UserProfilePage from '../users/pages/UserProfilePage';
 export default function Router() {
-    const { user } = useCurrentUser();
+
     return (
         <Routes>
             <Route path={ROUTES.ROOT} element={<CardsPage />} />
@@ -24,7 +26,10 @@ export default function Router() {
             <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
             <Route path={ROUTES.MY_CARDS} element={<MyCards />} />
             <Route path={ROUTES.CARD_INFO + "/:id"} element={<CardDetailsPage />} />
-            <Route path={ROUTES.ADD_CARDS} element={user ? <AddCardPage /> : <Navigate to={ROUTES.CARDS} />} />
+            <Route path={ROUTES.EDIT_CARD + "/:id"} element={<EditCardPage />} />
+            <Route path={ROUTES.USER_PROFILE + "/:id"} element={<UserProfilePage />} />
+            <Route path={ROUTES.EDIT_USER + "/:id"} element={<EditUserPage />} />
+            <Route path={ROUTES.ADD_CARDS} element={<AddCardPage />} />
             <Route path={ROUTES.SANDBOX} element={<SandBoxPage />} />
             <Route path="*" element={<ErrorPage />} />
         </Routes>

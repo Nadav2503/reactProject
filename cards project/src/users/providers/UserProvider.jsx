@@ -8,11 +8,11 @@ export default function UserProvider({ children }) {
     const [token, setToken] = useState(getToken());
 
     useEffect(() => {
-        if (!user) {
+        if (!user && token) {
             const userFromLocalStorage = getUser();
             setUser(userFromLocalStorage);
         }
-    }, [user]);
+    }, [user, token]);
 
     return (
         <UserContext.Provider value={{ user, setUser, token, setToken }}>
