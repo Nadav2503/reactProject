@@ -12,7 +12,7 @@ export default function UserProvider({ children }) {
             const userFromLocalStorage = getUser();
             setUser(userFromLocalStorage);
         }
-    }, [user, token]);
+    }, [token]);
 
     return (
         <UserContext.Provider value={{ user, setUser, token, setToken }}>

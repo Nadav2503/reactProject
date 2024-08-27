@@ -14,7 +14,7 @@ const Error = ({ errorMessage }) => {
                 <Grid item xs={12} md={4} justifyContent="center">
                     <img
                         width="100%"
-                        src="/images/broken-robot-error.png"
+                        src="/images/robot.png"
                         alt="broken robot"
                     />
                 </Grid>

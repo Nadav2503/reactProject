@@ -1,7 +1,7 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
 import { useNavigate } from 'react-router-dom';
-import { CardActionArea, CardHeader } from "@mui/material";
+import { CardActionArea } from "@mui/material";
 import CardHeaderComponent from "./CardHeaderComponent";
 import CardBody from "./CardBody";
 import CardActionBar from "./CardActionBar";
@@ -10,8 +10,9 @@ import ROUTES from "../../../routes/routesModel";
 export default function CardComponent({
   card,
   handleDelete,
-  handleEdit,
+  handleEditCard,
   handleLike,
+  isLiked
 }) {
   const navigate = useNavigate();
 
@@ -24,7 +25,6 @@ export default function CardComponent({
           title={card.title}
           subtitle={card.subtitle}
         />
-
         <CardBody
           phone={card.phone}
           address={card.address}
@@ -34,8 +34,10 @@ export default function CardComponent({
       <CardActionBar
         cardId={card._id}
         handleDelete={handleDelete}
+        handleEditCard={handleEditCard}
         handleLike={handleLike}
-        handleEdit={handleEdit}
+        isLiked={isLiked}
+        cardOwnerId={card.user_id}
       />
     </Card>
   );

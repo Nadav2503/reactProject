@@ -16,8 +16,12 @@ export const getToken = () => {
 export const getUser = () => {
     try {
         const myToken = getToken();
-        return jwtDecode(myToken);
+        if (myToken) {
+            return jwtDecode(myToken);
+        }
+        return null;
     } catch (err) {
+        console.error("Error decoding token:", err);
         return null;
     }
 };

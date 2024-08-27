@@ -17,17 +17,21 @@ export default function useUsers() {
     const handleLogin = useCallback(async (userLogin) => {
         setIsLoading(true);
         try {
-            const { token, userData } = await login(userLogin); // Assuming login returns { token, userData }
+            const token = await login(userLogin);
             setTokenInLocalStorage(token);
             setToken(token);
-            setUser(userData); // Set the user directly from the login response
+            const userFromLocalStorage = getUser();
+            setUser(userFromLocalStorage);
             navigate(ROUTES.CARDS);
         } catch (err) {
+            console.log(err);
             setError(err.message);
             setSnack("error", err.message);
         }
         setIsLoading(false);
-    }, [setToken, setUser, navigate, setSnack]);
+    }, []);
+
+
 
     const handleLogout = useCallback(() => {
         setToken(null);

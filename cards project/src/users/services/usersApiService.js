@@ -4,14 +4,13 @@ const apiUrl = "https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users";
 
 export const login = async (userLogin) => {
     try {
-        const response = await axios.post(`${apiUrl}/login`, userLogin);
-        const { token, userData } = response.data;
-        return { token, userData }; // Ensure this is returned
+        const response = await axios.post(apiUrl + "/login", userLogin);
+        const data = response.data;
+        return data;
     } catch (err) {
-        console.error('Error details:', err.response ? err.response.data : err.message);
         throw new Error(err.message);
     }
-}
+};
 
 export const signup = async (normalizeUser) => {
     try {

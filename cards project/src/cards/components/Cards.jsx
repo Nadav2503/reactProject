@@ -2,12 +2,8 @@ import React from 'react';
 import CardComponent from "./card/CardComponent";
 import { Container } from "@mui/material";
 
+export default function Cards({ cards, handleDelete, handleLike, handleEdit }) {
 
-export default function Cards({ cards, handleDelete, handleLike }) {
-
-    const handleEdit = (id) => {
-        console.log("editing card " + id);
-    };
     return (
         <>
             <Container sx={{ display: "flex", flexWrap: "wrap" }}>
@@ -17,7 +13,7 @@ export default function Cards({ cards, handleDelete, handleLike }) {
                         key={card._id}
                         handleDelete={handleDelete}
                         handleLike={handleLike}
-                        handleEdit={handleEdit}
+                        handleEditCard={handleEdit}
                     />
                 ))}
             </Container>

@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import CardForm from '../components/CardForm';
 import initialCardForm from '../helpers/initialForms/initialCardForm';
 import cardSchema from '../models/cardSchema';
 import useForm from '../../forms/hooks/useForm';
+import useCards from '../hooks/useCards';
 
 export default function AddCardPage() {
-    const handleSubmit = (formData) => {
-        console.log('Submitted Card Details:', formData);
-    };
+    const { handleCreateCard } = useCards();
+
+    const handleSubmit = useCallback(async (formData) => {
+        try {
+            await handleCreateCard(formData);
+        } catch (error) {
+            console.error('Failed to create card:', error);
+        }
+    }, [handleCreateCard]);
 
     const {
         data,

@@ -21,8 +21,8 @@ const cardSchema = {
     imageUrl: Joi.string()
         .ruleset.regex(urlRegex)
         .rule({ message: 'card.image "url" mast be a valid url' })
-        .allow(""),
-    imageAlt: Joi.string().min(2).max(256).allow(""),
+        .required(),
+    imageAlt: Joi.string().min(2).max(256).required(),
     state: Joi.string().allow(""),
     country: Joi.string().min(2).max(256).required(),
     city: Joi.string().min(2).max(256).required(),

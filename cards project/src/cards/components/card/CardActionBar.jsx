@@ -7,32 +7,45 @@ import { Box, IconButton, CardActions } from "@mui/material";
 import { useCurrentUser } from "../../../users/providers/UserProvider";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../../routes/routesModel";
-
 export default function CardActionBar({
     cardId,
     handleDelete,
-    handleEdit,
     handleLike,
+    isLiked,
+    cardOwnerId
 }) {
-    const user = useCurrentUser();
+    const { user } = useCurrentUser();
     const navigate = useNavigate();
+
+    const isLoggedIn = !!user;
+    const canEdit = user && (user.isAdmin || user._id === cardOwnerId);
+    const canDelete = user && (user.isAdmin || user._id === cardOwnerId);
+
     return (
         <CardActions sx={{ justifyContent: "space-between" }}>
-            {user && (user.isAdmin || user.isBusiness) && (<Box>
-                <IconButton onClick={() => handleDelete(cardId)}>
-                    <DeleteIcon />
-                </IconButton>
-                <IconButton onClick={() => navigate(ROUTES.EDIT_CARD + "/" + cardId)}>
-                    <ModeEditIcon />
-                </IconButton>
-            </Box>)}
+            <Box>
+                {canDelete && (
+                    <IconButton onClick={() => handleDelete(cardId)}>
+                        <DeleteIcon />
+                    </IconButton>
+                )}
+
+                {canEdit && (
+                    <IconButton onClick={() => navigate(ROUTES.EDIT_CARD + "/" + cardId)}>
+                        <ModeEditIcon />
+                    </IconButton>
+                )}
+            </Box>
             <Box>
                 <IconButton>
                     <CallIcon />
                 </IconButton>
-                <IconButton onClick={() => handleLike(cardId)}>
-                    <FavoriteIcon />
-                </IconButton>
+
+                {isLoggedIn && handleLike && (
+                    <IconButton onClick={() => handleLike(cardId)}>
+                        <FavoriteIcon color={isLiked ? "error" : "action"} />
+                    </IconButton>
+                )}
             </Box>
         </CardActions>
     );

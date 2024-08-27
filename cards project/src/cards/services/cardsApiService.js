@@ -21,13 +21,12 @@ export const getCard = async (cardId) => {
     }
 };
 
-export const getMyCards = async () => {
+export const getMyCardsApi = async () => {
     try {
         const response = await axios.get(`${apiUrl}/my-cards`);
-        const data = response.data;
-        return data;
+        return response.data;
     } catch (error) {
-        throw new Error(err.message);
+        throw new Error(error.message);
     }
 };
 
@@ -40,26 +39,17 @@ export const deleteCard = async (cardId) => {
     }
 };
 
-export const createCard = async (card) => {
+export const createCard = async (card, token) => {
     try {
-        const { data } = await axios.post(apiUrl, card);
+        const { data } = await axios.post(apiUrl, card, {
+            headers: { 'x-auth-token': token }
+        });
         return data;
     } catch (error) {
-        console.error("Error making request:", error.message); // Log error message
-        if (error.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
-            console.error("Error response data:", error.response.data);
-            console.error("Error response status:", error.response.status);
-            console.error("Error response headers:", error.response.headers);
-        } else if (error.request) {
-            // The request was made but no response was received
-            console.error("No response received for the request:", error.request);
-        } else {
-            // Something happened in setting up the request that triggered an Error
-            console.error("Error setting up the request:", error.message);
-        }
-        throw new Error(err.message);
+        console.error("Error making request:", error.message);
+        console.error("Request Data:", card);
+        console.error("Response Data:", error.response ? error.response.data : "No response data");
+        throw new Error(error.message);
     }
 };
 
@@ -68,21 +58,8 @@ export const editCard = async (cardId, normalaizedCard) => {
         const { data } = await axios.put(`${apiUrl}/${cardId}`, normalaizedCard);
         return data;
     } catch (error) {
-        console.error("Error making request:", error.message); // Log error message
-        if (error.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
-            console.error("Error response data:", error.response.data);
-            console.error("Error response status:", error.response.status);
-            console.error("Error response headers:", error.response.headers);
-        } else if (error.request) {
-            // The request was made but no response was received
-            console.error("No response received for the request:", error.request);
-        } else {
-            // Something happened in setting up the request that triggered an Error
-            console.error("Error setting up the request:", error.message);
-        }
-        throw new Error(err.message);
+        console.error("Error making request:", error.message);
+        throw new Error(error.message);
     }
 };
 
@@ -91,6 +68,6 @@ export const changeLikeStatus = async (cardId) => {
         const { data } = await axios.patch(`${apiUrl}/${cardId}`);
         return data;
     } catch (error) {
-        throw new Error(err.message);
+        throw new Error(error.message);
     }
 };
