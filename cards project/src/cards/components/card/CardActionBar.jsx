@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import CallIcon from "@mui/icons-material/Call";
@@ -7,6 +7,8 @@ import { Box, IconButton, CardActions } from "@mui/material";
 import { useCurrentUser } from "../../../users/providers/UserProvider";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../../routes/routesModel";
+import ConfirmDialog from "../../../components/ConfirmDialog";
+
 export default function CardActionBar({
     cardId,
     handleDelete,
@@ -16,37 +18,56 @@ export default function CardActionBar({
 }) {
     const { user } = useCurrentUser();
     const navigate = useNavigate();
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     const isLoggedIn = !!user;
     const canEdit = user && (user.isAdmin || user._id === cardOwnerId);
     const canDelete = user && (user.isAdmin || user._id === cardOwnerId);
 
+    const handleDeleteClick = () => {
+        setDialogOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        handleDelete(cardId);
+    };
+
     return (
-        <CardActions sx={{ justifyContent: "space-between" }}>
-            <Box>
-                {canDelete && (
-                    <IconButton onClick={() => handleDelete(cardId)}>
-                        <DeleteIcon />
-                    </IconButton>
-                )}
+        <>
+            <CardActions sx={{ justifyContent: "space-between" }}>
+                <Box>
+                    {canDelete && (
+                        <IconButton onClick={handleDeleteClick}>
+                            <DeleteIcon />
+                        </IconButton>
+                    )}
 
-                {canEdit && (
-                    <IconButton onClick={() => navigate(ROUTES.EDIT_CARD + "/" + cardId)}>
-                        <ModeEditIcon />
+                    {canEdit && (
+                        <IconButton onClick={() => navigate(ROUTES.EDIT_CARD + "/" + cardId)}>
+                            <ModeEditIcon />
+                        </IconButton>
+                    )}
+                </Box>
+                <Box>
+                    <IconButton>
+                        <CallIcon />
                     </IconButton>
-                )}
-            </Box>
-            <Box>
-                <IconButton>
-                    <CallIcon />
-                </IconButton>
 
-                {isLoggedIn && handleLike && (
-                    <IconButton onClick={() => handleLike(cardId)}>
-                        <FavoriteIcon color={isLiked ? "error" : "action"} />
-                    </IconButton>
-                )}
-            </Box>
-        </CardActions>
+                    {isLoggedIn && handleLike && (
+                        <IconButton onClick={() => handleLike(cardId)}>
+                            <FavoriteIcon color={isLiked ? "error" : "action"} />
+                        </IconButton>
+                    )}
+                </Box>
+            </CardActions>
+
+            <ConfirmDialog
+                open={dialogOpen}
+                onClose={() => setDialogOpen(false)}
+                onConfirm={handleConfirmDelete}
+                title="Confirm Delete"
+                message="Are you sure you want to delete this card?"
+            />
+        </>
     );
 }

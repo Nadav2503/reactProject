@@ -12,6 +12,7 @@ const CardForm = ({
     data,
     title,
 }) => {
+
     return (
         <Form
             onSubmit={onSubmit}

@@ -52,8 +52,10 @@ export default function useForm(initialForm, schema, handleSubmit) {
   }, [initialForm]);
 
   const onSubmit = useCallback(() => {
-    handleSubmit(data);
-  }, [data]);
+    if (validateForm()) { // Check if the form is valid
+      handleSubmit(data); // Call the function with form data
+    }
+  }, [data, validateForm, handleSubmit]);
 
   return {
     data,

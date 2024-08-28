@@ -6,13 +6,13 @@ import useCards from "../hooks/useCards";
 import useForm from "../../forms/hooks/useForm";
 import initialCardForm from "../helpers/initialForms/initialCardForm";
 import cardSchema from "../models/cardSchema";
+import CardComponent from "../components/card/CardComponent";
 import mapCardToModel from "../helpers/normalization/mapCardToModel";
 import normalizeCard from "../helpers/normalization/normalizeCard";
-import CardComponent from "../components/card/CardComponent";
 
 export default function EditCardPage() {
     const { id } = useParams();
-    const { handleUpdateCard, getCardById, card } = useCards();
+    const { handleEditCard, getCardById, card } = useCards();
     const {
         data,
         errors,
@@ -22,7 +22,7 @@ export default function EditCardPage() {
         validateForm,
         onSubmit,
     } = useForm(initialCardForm, cardSchema, (data) =>
-        handleUpdateCard(id, data)
+        handleEditCard(id, data)
     );
 
     useEffect(() => {

@@ -1,4 +1,3 @@
-
 const normalizeCard = (card) => {
     return {
         title: card.title,
@@ -20,6 +19,6 @@ const normalizeCard = (card) => {
             zip: card.zip,
         },
     };
-}
+};
 
 export default normalizeCard;

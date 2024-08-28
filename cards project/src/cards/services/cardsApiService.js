@@ -39,11 +39,9 @@ export const deleteCard = async (cardId) => {
     }
 };
 
-export const createCard = async (card, token) => {
+export const createCard = async (card) => {
     try {
-        const { data } = await axios.post(apiUrl, card, {
-            headers: { 'x-auth-token': token }
-        });
+        const { data } = await axios.post(apiUrl, card);
         return data;
     } catch (error) {
         console.error("Error making request:", error.message);

@@ -13,6 +13,8 @@ import {
 import useAxios from '../../hooks/useAxios';
 import { useCurrentUser } from '../../users/providers/UserProvider';
 import { getToken } from '../../users/services/localStorageService';
+import normalizeCard from '../helpers/normalization/normalizeCard';
+import ROUTES from '../../routes/routesModel';
 
 export default function useCards() {
     const [cards, setCards] = useState([]);
@@ -74,8 +76,8 @@ export default function useCards() {
         setIsLoading(true);
         setError(null);
         try {
-            const token = getToken();
-            const data = await createCard(cardFromClient, token);
+            const normalizedCard = normalizeCard(cardFromClient);
+            const data = await createCard(normalizedCard);
             setCard(data);
             setSnack('success', 'A new business card has been created');
         } catch (err) {
@@ -88,19 +90,22 @@ export default function useCards() {
     const handleEditCard = useCallback(
         async (cardId, cardFromClient) => {
             setIsLoading(true);
+            setError(null);
             try {
-                const card = await editCard(cardId, normalizeCard(cardFromClient));
-                setCard(card);
+                const normalizedCard = normalizeCard(cardFromClient);
+                const updatedCard = await editCard(cardId, normalizedCard);
+                setCard(updatedCard);
                 setSnack("success", "The business card has been successfully updated");
                 setTimeout(() => {
-                    navigate(ROUTES.ROOT);
+                    navigate(ROUTES.MY_CARDS);
                 }, 1000);
             } catch (error) {
                 setError(error.message);
+            } finally {
+                setIsLoading(false);
             }
-            setIsLoading(false);
         },
-        [setSnack, navigate]
+        [setSnack, navigate, normalizeCard]
     );
 
     const handleDelete = useCallback(async (id) => {
@@ -122,14 +127,27 @@ export default function useCards() {
         setError(null);
         try {
             await changeLikeStatus(id);
+            setCards(prevCards => {
+                const isCardInFavorites = prevCards.find(card => card._id === id && card.likes.includes(user._id));
+
+                if (isCardInFavorites) {
+                    return prevCards.filter(card => card._id !== id);
+                } else {
+                    return prevCards.map(card =>
+                        card._id === id
+                            ? { ...card, likes: card.likes.includes(user._id) ? card.likes.filter(like => like !== user._id) : [...card.likes, user._id] }
+                            : card
+                    );
+                }
+            });
+
             setSnack('success', 'Card like status changed');
-            await fetchCards();
         } catch (err) {
             setError(err.message);
         } finally {
             setIsLoading(false);
         }
-    }, [fetchCards, setSnack]);
+    }, [setSnack, user]);
 
     const getFavoriteCards = useCallback(async () => {
         if (!user) {
