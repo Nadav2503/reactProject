@@ -8,6 +8,8 @@ import normalizeUserForUpdate from '../helpers/normalization/normalizeUserForUpd
 import mapUserToModelForUpdate from '../helpers/normalization/mapUserToModelForUpdate';
 import userSchema from '../models/userSchema';
 import initialUserForm from '../helpers/initialForms/initialUserForm';
+import Spinner from '../../components/Spinner';
+import Error from '../../components/Error';
 
 export default function EditUserPage() {
     const { id } = useParams();
@@ -31,17 +33,9 @@ export default function EditUserPage() {
         }
     }, [user]);
 
-    if (isLoading) {
-        return <Typography>Loading...</Typography>;
-    }
-
-    if (error) {
-        return <Typography color="error">{error}</Typography>;
-    }
-
-    if (!user) {
-        return <Typography>No user data available.</Typography>;
-    }
+    if (isLoading) return <Spinner />;
+    if (error) return <Error errorMessage={error} />;
+    if (!user) return <Error errorMessage="No user data available" />;
 
     return (
         <div>

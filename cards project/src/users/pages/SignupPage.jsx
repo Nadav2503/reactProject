@@ -8,6 +8,7 @@ import signupSchema from "../models/signupSchema";
 import { Container } from "@mui/material";
 import SignupForm from "../components/SignupForm";
 import useUsers from "../hooks/useUsers";
+import Spinner from "../../components/Spinner";
 
 export default function SignupPage() {
   const { isLoading, error, handleSignup } = useUsers();
@@ -22,7 +23,8 @@ export default function SignupPage() {
   } = useForm(initialSignupForm, signupSchema, handleSignup);
 
   const { user } = useCurrentUser();
-
+  if (isLoading) return <Spinner />;
+  if (error) return <Error errorMessage={error} />;
   if (user) return <Navigate to={ROUTES.ROOT} replace />;
 
   return (

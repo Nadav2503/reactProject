@@ -11,6 +11,8 @@ import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import useUsers from "../hooks/useUsers";
+import Spinner from "../../components/Spinner";
+import Error from "../../components/Error";
 
 export default function LoginPage() {
   const { isLoading, error, handleLogin } = useUsers();
@@ -18,7 +20,8 @@ export default function LoginPage() {
     useForm(initialLoginForm, loginSchema, handleLogin);
 
   const { user } = useCurrentUser();
-
+  if (isLoading) return <Spinner />;
+  if (error) return <Error errorMessage={error} />;
   if (user) return <Navigate to={ROUTES.ROOT} replace />;
 
   return (
