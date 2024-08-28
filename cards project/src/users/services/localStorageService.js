@@ -1,18 +1,17 @@
 import { jwtDecode } from "jwt-decode";
 const TOKEN = 'my token';
 
-export const setTokenInLocalStorage = (jwtToken) => {
-    localStorage.setItem(TOKEN, jwtToken);
-}
+export const setTokenInLocalStorage = (token) => {
+    localStorage.setItem(TOKEN, token);
+};
 
 export const removeToken = () => {
     localStorage.removeItem(TOKEN);
 }
 
 export const getToken = () => {
-    return localStorage.getItem(TOKEN);
-}
-
+    return localStorage.getItem('my token');
+};
 export const getUser = () => {
     try {
         const myToken = getToken();
@@ -21,7 +20,6 @@ export const getUser = () => {
         }
         return null;
     } catch (err) {
-        console.error("Error decoding token:", err);
         return null;
     }
 };

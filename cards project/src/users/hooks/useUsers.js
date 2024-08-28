@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useCurrentUser } from '../providers/UserProvider';
-import { setTokenInLocalStorage, removeToken, getUser } from '../services/localStorageService';
+import { setTokenInLocalStorage, removeToken } from '../services/localStorageService';
 import { login, signup, getUserData, updateUser } from '../services/usersApiService';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../routes/routesModel';
@@ -10,47 +10,61 @@ import normalizeUser from '../helpers/normalization/normalizeUser';
 export default function useUsers() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const { setUser, setToken } = useCurrentUser();
+    const { user, setUser, setToken, getUser } = useCurrentUser(); // Use useCurrentUser to get user
     const navigate = useNavigate();
     const setSnack = useSnack();
 
     const handleLogin = useCallback(async (userLogin) => {
         setIsLoading(true);
         try {
-            const token = await login(userLogin);
+            const { token } = await login(userLogin);
             setTokenInLocalStorage(token);
             setToken(token);
-            const userFromLocalStorage = getUser();
+            const userFromLocalStorage = getUser(); // This will use localStorage
             setUser(userFromLocalStorage);
             navigate(ROUTES.CARDS);
         } catch (err) {
-            console.log(err);
             setError(err.message);
             setSnack("error", err.message);
         }
         setIsLoading(false);
-    }, []);
-
-
+    }, [navigate, setToken, setUser, setSnack]);
 
     const handleLogout = useCallback(() => {
         setToken(null);
         setUser(null);
         removeToken();
         navigate(ROUTES.LOGIN);
-    }, [setToken, setUser, navigate]);
+    }, [navigate, setToken, setUser]);
 
-    const getUserById = useCallback(async (id) => {
+    const handleSignup = useCallback(async (user) => {
         setIsLoading(true);
         try {
-            const userData = await getUserData(id);
-            setUser(userData);
+            const normalizedUser = normalizeUser(user);
+            const { token } = await signup(normalizedUser);
+            setTokenInLocalStorage(token);
+            setToken(token);
+            setUser(getUser());
+            navigate(ROUTES.CARDS);
+            await handleLogin({ email: user.email, password: user.password });
         } catch (err) {
             setError(err.message);
             setSnack("error", err.message);
         }
         setIsLoading(false);
-    }, [setUser, setSnack]);
+    }, [handleLogin, navigate, setToken, setUser, setSnack]);
+
+    const getUserById = useCallback(async (id) => {
+        setIsLoading(true);
+        try {
+            const userData = await getUserData(id);
+            setUser(userData); // Update user in the provider
+        } catch (err) {
+            setError(err.message);
+            setSnack("error", err.message);
+        }
+        setIsLoading(false);
+    }, [setSnack, setUser]);
 
     const handleUpdateUser = useCallback(async (id, userData) => {
         setIsLoading(true);
@@ -64,24 +78,7 @@ export default function useUsers() {
             setSnack("error", err.message);
         }
         setIsLoading(false);
-    }, [setSnack, navigate]);
+    }, [navigate, setSnack]);
 
-    const handleSignup = useCallback(async (user) => {
-        setIsLoading(true);
-        try {
-            const normalizedUser = normalizeUser(user);
-            const token = await signup(normalizedUser);
-            setTokenInLocalStorage(token);
-            setToken(token);
-            setUser(getUser());
-            navigate(ROUTES.CARDS);
-            await handleLogin({ email: user.email, password: user.password });
-        } catch (err) {
-            setError(err.message);
-            setSnack("error", err.message);
-        }
-        setIsLoading(false);
-    }, [handleLogin]);
-
-    return { isLoading, error, handleLogin, handleLogout, handleSignup, getUserById, handleUpdateUser };
+    return { isLoading, error, user, handleLogin, handleLogout, handleSignup, getUserById, handleUpdateUser };
 }

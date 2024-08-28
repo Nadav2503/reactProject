@@ -1,3 +1,4 @@
+// UserProvider.jsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getToken, getUser } from '../services/localStorageService';
 
@@ -8,7 +9,7 @@ export default function UserProvider({ children }) {
     const [token, setToken] = useState(getToken());
 
     useEffect(() => {
-        if (!user && token) {
+        if (token) {
             const userFromLocalStorage = getUser();
             setUser(userFromLocalStorage);
         }

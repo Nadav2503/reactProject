@@ -1,10 +1,8 @@
-const initialSignupForm = {
+const initialUserForm = {
     first: "",
     middle: "",
     last: "",
     phone: "",
-    email: "",
-    password: "",
     url: "",
     alt: "",
     state: "",
@@ -13,6 +11,6 @@ const initialSignupForm = {
     street: "",
     houseNumber: "",
     zip: "",
-    isBusiness: false,
+
 };
-export default initialSignupForm;
+export default initialUserForm;

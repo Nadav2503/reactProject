@@ -1,54 +1,83 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Typography, Paper, Grid, Divider } from '@mui/material';
-import PageHeader from '../../components/PageHeader';
-import Spinner from '../../components/Spinner';
-import Error from '../../components/Error';
-import useUsers from '../hooks/useUsers';
+import { Typography, Container, Card, CardContent, Avatar, Grid, Box } from '@mui/material';
+import useUsers from "../hooks/useUsers";
 
 export default function UserProfilePage() {
-    const { user, isLoading, error, getUserById } = useUsers();
     const { id } = useParams();
+    const { getUserById, isLoading, error, user } = useUsers();
 
     useEffect(() => {
         getUserById(id);
     }, [id, getUserById]);
 
-    if (isLoading) return <Spinner />;
-    if (error) return <Error errorMessage={error} />;
-    if (!user) return <Error errorMessage="User not found" />;
+    if (isLoading) {
+        return <Typography>Loading...</Typography>;
+    }
+
+    if (error) {
+        return <Typography color="error">{error}</Typography>;
+    }
+
+    if (!user) {
+        return <Typography>No user data available.</Typography>;
+    }
 
     return (
-        <Container sx={{ mt: 4 }}>
-            <PageHeader
-                title="User Profile"
-                subtitle="Here you can find detailed information about the user"
-                sx={{ mb: 4 }}
-            />
-            <Grid container spacing={4} justifyContent="center">
-                <Grid item xs={12} md={6}>
-                    <Paper elevation={3} sx={{ p: 3, display: 'flex', flexDirection: 'column', height: '100%' }}>
-                        <Typography variant="h5" component="div" gutterBottom>
-                            {user.name}
-                        </Typography>
-                        <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-                            {user.email}
-                        </Typography>
-                        <Divider sx={{ my: 2 }} />
-                        <Typography variant="body1" color="text.primary" gutterBottom>
-                            <strong>Phone:</strong> {user.phone}
-                        </Typography>
-                        <Typography variant="body1" color="text.primary" gutterBottom>
-                            <strong>Address:</strong> {user.address.city}, {user.address.street} {user.address.houseNumber}
-                        </Typography>
-                        <Typography variant="body1" color="text.primary">
-                            <strong>User ID:</strong> {user.id}
-                        </Typography>
-                        <Divider sx={{ my: 2 }} />
-                        <Typography variant="body2" color="text.secondary">
-                            This page provides detailed information about the user. You can view their contact details, address, and other relevant information.
-                        </Typography>
-                    </Paper>
+        <Container maxWidth="md" sx={{ mt: 4 }}>
+            <Grid container spacing={4}>
+                <Grid item xs={12} md={4}>
+                    <Box display="flex" justifyContent="center">
+                        <Avatar
+                            alt={user.image.alt}
+                            src={user.image.url}
+                            sx={{ width: 150, height: 150 }}
+                        />
+                    </Box>
+                </Grid>
+
+                <Grid item xs={12} md={8}>
+                    <Card variant="outlined">
+                        <CardContent>
+                            <Typography variant="h5" gutterBottom>
+                                {`${user.name.first} ${user.name.middle ? `${user.name.middle} ` : ''}${user.name.last}`}
+                            </Typography>
+                            <Typography variant="body1" color="textSecondary">
+                                Email: {user.email}
+                            </Typography>
+                            <Typography variant="body1" color="textSecondary">
+                                Phone: {user.phone}
+                            </Typography>
+
+
+                            <Box mt={2} p={2} border={1} borderRadius={1} borderColor="grey.300">
+                                <Typography variant="h6" gutterBottom>
+                                    Address
+                                </Typography>
+                                <Typography variant="body1" color="textSecondary">
+                                    <strong>Street:</strong> {user.address.street}
+                                </Typography>
+                                <Typography variant="body1" color="textSecondary">
+                                    <strong>House Number:</strong> {user.address.houseNumber}
+                                </Typography>
+                                <Typography variant="body1" color="textSecondary">
+                                    <strong>City:</strong> {user.address.city}
+                                </Typography>
+                                <Typography variant="body1" color="textSecondary">
+                                    <strong>State:</strong> {user.address.state}
+                                </Typography>
+                                <Typography variant="body1" color="textSecondary">
+                                    <strong>Country:</strong> {user.address.country}
+                                </Typography>
+                                <Typography variant="body1" color="textSecondary">
+                                    <strong>ZIP Code:</strong> {user.address.zip}
+                                </Typography>
+                            </Box>
+                            <Typography variant="body1" color="textSecondary" mt={2}>
+                                Business User: {user.isBusiness ? 'Yes' : 'No'}
+                            </Typography>
+                        </CardContent>
+                    </Card>
                 </Grid>
             </Grid>
         </Container>

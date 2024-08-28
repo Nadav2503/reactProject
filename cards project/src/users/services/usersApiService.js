@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getToken } from './localStorageService';
 
 const apiUrl = "https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users";
 
@@ -17,28 +18,55 @@ export const signup = async (normalizeUser) => {
         const { data } = await axios.post(apiUrl, normalizeUser);
         return data;
     } catch (error) {
-        console.error('Error details:', error.response ? error.response.data : error.message);
         throw new Error(error.message);
     }
-}
+};
 
 export const getUserData = async (id) => {
     try {
-        const response = await axios.get(`${apiUrl}/${id}`);
-        const data = response.data;
-        return data;
+        const token = getToken();
+
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+
+        const response = await axios.get(`${apiUrl}/${id}`, {
+            headers: {
+                'x-auth-token': token
+            }
+        });
+
+        if (response.status === 200 && response.data) {
+            return response.data;
+        } else {
+            throw new Error('User not found');
+        }
     } catch (err) {
-        console.error('Error details:', err.response ? err.response.data : err.message);
         throw new Error(err.message);
     }
-}
+};
 
 export const updateUser = async (id, userData) => {
     try {
-        const { data } = await axios.put(`${apiUrl}/${id}`, userData);
+        const token = getToken();
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+
+        console.log('Updating user with ID:', id);
+        console.log('Request payload:', userData);
+
+        const { data } = await axios.put(`${apiUrl}/${id}`, userData, {
+            headers: {
+                'x-auth-token': token
+            }
+        });
+
+        console.log('Response data:', data);
         return data;
     } catch (error) {
-        console.error('Error details:', error.response ? error.response.data : error.message);
+        console.error('Update user error:', error.response ? error.response.data : error.message);
         throw new Error(error.message);
     }
-}
+};
+
