@@ -32,7 +32,7 @@ export default function useForm(initialForm, schema, handleSubmit) {
     [validateProperty]
   );
 
-  const handleChangeCheckBox = useCallback(() => {
+  const handleChangeCheckBox = useCallback((e) => {
     let value = e.target.checked;
     let name = e.target.name;
     setData((prev) => ({ ...prev, [name]: value }));
@@ -52,8 +52,8 @@ export default function useForm(initialForm, schema, handleSubmit) {
   }, [initialForm]);
 
   const onSubmit = useCallback(() => {
-    if (validateForm()) { // Check if the form is valid
-      handleSubmit(data); // Call the function with form data
+    if (validateForm()) {
+      handleSubmit(data);
     }
   }, [data, validateForm, handleSubmit]);
 

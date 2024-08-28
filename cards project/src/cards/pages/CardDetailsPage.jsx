@@ -18,7 +18,7 @@ export default function CardDetailsPage() {
     if (!card) return <Error errorMessage="Card not found" />;
 
     return (
-        <Container sx={{ mt: 4 }}>
+        <Container >
             <PageHeader
                 title="Card Details"
                 subtitle="Here you can find detailed information about the card"
@@ -53,7 +53,7 @@ export default function CardDetailsPage() {
                         </Typography>
                         <Divider sx={{ my: 2 }} />
                         <Typography variant="body2" color="text.secondary">
-                            This card represents a business entity and provides essential contact details. Use it to reach out to the business, visit their location, or verify their credentials. The information provided includes a phone number, address, and a unique card number for identification.
+                            {card.description}
                         </Typography>
                     </Paper>
                 </Grid>

@@ -19,7 +19,7 @@ export default function MyCards() {
 
     if (isLoading) return <Spinner />;
     if (error) return <Error errorMessage={error} />;
-    if (!cards || cards.length === 0) return <Error errorMessage="No cards found" />;
+    if (!cards) return <Error errorMessage="No cards found" />;
 
     return (
         <Container>

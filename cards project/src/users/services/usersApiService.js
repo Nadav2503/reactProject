@@ -18,7 +18,8 @@ export const signup = async (normalizeUser) => {
         const { data } = await axios.post(apiUrl, normalizeUser);
         return data;
     } catch (error) {
-        throw new Error(error.message);
+
+        throw new Error(error.response ? error.response.data.message : error.message);
     }
 };
 
@@ -52,21 +53,14 @@ export const updateUser = async (id, userData) => {
         if (!token) {
             throw new Error('No authentication token found');
         }
-
-        console.log('Updating user with ID:', id);
-        console.log('Request payload:', userData);
-
         const { data } = await axios.put(`${apiUrl}/${id}`, userData, {
             headers: {
                 'x-auth-token': token
             }
         });
 
-        console.log('Response data:', data);
         return data;
     } catch (error) {
-        console.error('Update user error:', error.response ? error.response.data : error.message);
         throw new Error(error.message);
     }
 };
-

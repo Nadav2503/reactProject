@@ -5,6 +5,7 @@ import cardSchema from '../models/cardSchema';
 import useForm from '../../forms/hooks/useForm';
 import useCards from '../hooks/useCards';
 import ROUTES from '../../routes/routesModel';
+import { useNavigate } from 'react-router-dom';
 
 export default function AddCardPage() {
     const { handleCreateCard } = useCards();

@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useCurrentUser } from '../providers/UserProvider';
-import { setTokenInLocalStorage, removeToken } from '../services/localStorageService';
+import { setTokenInLocalStorage, removeToken, getUser } from '../services/localStorageService';
 import { login, signup, getUserData, updateUser } from '../services/usersApiService';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../routes/routesModel';
@@ -10,17 +10,17 @@ import normalizeUser from '../helpers/normalization/normalizeUser';
 export default function useUsers() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const { user, setUser, setToken, getUser } = useCurrentUser(); // Use useCurrentUser to get user
+    const { user, setUser, setToken } = useCurrentUser();
     const navigate = useNavigate();
     const setSnack = useSnack();
 
     const handleLogin = useCallback(async (userLogin) => {
         setIsLoading(true);
         try {
-            const { token } = await login(userLogin);
+            const token = await login(userLogin);
             setTokenInLocalStorage(token);
             setToken(token);
-            const userFromLocalStorage = getUser(); // This will use localStorage
+            const userFromLocalStorage = getUser();
             setUser(userFromLocalStorage);
             navigate(ROUTES.CARDS);
         } catch (err) {
@@ -28,14 +28,7 @@ export default function useUsers() {
             setSnack("error", err.message);
         }
         setIsLoading(false);
-    }, [navigate, setToken, setUser, setSnack]);
-
-    const handleLogout = useCallback(() => {
-        setToken(null);
-        setUser(null);
-        removeToken();
-        navigate(ROUTES.LOGIN);
-    }, [navigate, setToken, setUser]);
+    }, []);
 
     const handleSignup = useCallback(async (user) => {
         setIsLoading(true);
@@ -54,11 +47,18 @@ export default function useUsers() {
         setIsLoading(false);
     }, [handleLogin, navigate, setToken, setUser, setSnack]);
 
+    const handleLogout = useCallback(() => {
+        setToken(null);
+        setUser(null);
+        removeToken();
+        navigate(ROUTES.LOGIN);
+    }, [navigate, setToken, setUser]);
+
     const getUserById = useCallback(async (id) => {
         setIsLoading(true);
         try {
             const userData = await getUserData(id);
-            setUser(userData); // Update user in the provider
+            setUser(userData);
         } catch (err) {
             setError(err.message);
             setSnack("error", err.message);
