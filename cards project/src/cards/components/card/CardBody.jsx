@@ -1,7 +1,7 @@
 import React from "react";
 import { CardContent, Typography } from "@mui/material";
 
-export default function CardBody({ phone, address, bizNumber }) {
+export default function CardBody({ phone, address, email }) {
     return (
         <>
             <CardContent>
@@ -14,8 +14,8 @@ export default function CardBody({ phone, address, bizNumber }) {
                     {address.city} {address.street} {address.houseNumber}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    <strong>Card Number: </strong>
-                    {bizNumber}
+                    <strong>email: </strong>
+                    {email}
                 </Typography>
             </CardContent>
         </>

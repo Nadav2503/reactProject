@@ -4,14 +4,20 @@ import CardComponent from '../components/card/CardComponent';
 import { Container, Grid } from '@mui/material';
 import PageHeader from '../../components/PageHeader';
 import { useCurrentUser } from '../../users/providers/UserProvider';
+import Spinner from '../../components/Spinner';
+import Error from '../../components/Error';
 
 export default function FavoritesPage() {
-    const { cards, getFavoriteCards, handleLike, handleDelete, handleEditCard } = useCards();
+    const { cards, isLoading, error, getFavoriteCards, handleLike, handleDelete, handleEditCard } = useCards();
     const { user } = useCurrentUser();
 
     useEffect(() => {
         getFavoriteCards();
     }, [getFavoriteCards]);
+
+    if (isLoading) return <Spinner />;
+    if (error) return <Error errorMessage={error} />;
+    if (!cards) return <Error errorMessage="No cards found" />;
 
     return (
         <Container >

@@ -6,18 +6,39 @@ export default function AboutPage() {
     return (
         <Container>
             <PageHeader
-                title="About Page"
-                subtitle="On this page you can find explanations about using the application"
+                title="About Us"
+                subtitle="Learn more about BusinessCardsHub"
             />
-            <Container sx={{ mt: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Container sx={{ flex: 1, mr: 2 }}>
-                    <Typography variant="h6">About Page</Typography>
+            <Container sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Container sx={{ maxWidth: 800, mb: 4 }}>
+                    <Typography variant="h5" gutterBottom>
+                        Welcome to BusinessCardsHub!
+                    </Typography>
                     <Typography variant="body1" paragraph>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus quas, similique quos ducimus quaerat aperiam quibusdam recusandae voluptas consequuntur quam qui nam reiciendis porro? Assumenda facere esse incidunt sit illum vel qui totam praesentium corrupti. Ducimus asperiores maxime laudantium corporis nisi eligendi magni id sequi! Aliquam cupiditate, quas maxime deleniti sunt accusamus amet aut molestias, beatae nulla sequi eaque reiciendis id, iste nobis. Aliquid, blanditiis repellat molestias modi necessitatibus cum non dolor enim ullam minima recusandae deserunt! Quia odit, tempora dolore fuga assumenda atque iusto. Neque cum mollitia officiis officia sit asperiores obcaecati voluptatem reprehenderit, eos consequatur, sint vel nulla? Neque consequatur error unde enim consequuntur dolorum ea quasi sint ad vel dicta corporis atque provident beatae sunt cupiditate numquam nisi voluptatum aspernatur adipisci, et ullam recusandae? Quas pariatur modi ratione laudantium. Iusto, tenetur. Quae harum eius distinctio? Molestiae voluptatibus iste, minima cum fugiat numquam id recusandae nostrum eaque illo saepe quasi tempore facere iusto at. Necessitatibus nam a commodi voluptatum odio aliquam vero dolores ipsum saepe, eum est sit reprehenderit cumque id distinctio optio? Corporis tempora eveniet ex expedita dolorum dolor dignissimos, magni rerum eligendi ea laborum maxime vel reprehenderit voluptas assumenda odio! Sunt doloremque at accusantium aspernatur eaque!
+                        At BusinessCardsHub, we're transforming the way professionals connect and network. Our platform allows you to publish and discover business cards easily. As an entrepreneur, you can showcase your business and connect with potential clients or partners. As a user, you can explore various business cards, find new connections, and engage with profiles that interest you.
+                    </Typography>
+                    <Typography variant="body1" paragraph>
+                        With BusinessCardsHub, you can:
+                    </Typography>
+                    <Typography variant="body1" paragraph>
+                        - <strong>Publish Your Business Card:</strong> Share your company details and contact information with a broad audience.
+                        <br />
+                        - <strong>Explore Cards:</strong> Browse through business cards from different industries and professionals to find what suits your needs.
+                        <br />
+                        - <strong>Like and Engage:</strong> Interact with cards and show appreciation for businesses that stand out to you.
+                        <br />
+                        - <strong>Create and Manage Cards:</strong> Business users can create and update their business cards to keep their information current and engaging.
+                    </Typography>
+                    <Typography variant="body1" paragraph>
+                        Join our community and enhance your networking experience today!
                     </Typography>
                 </Container>
-                <Container sx={{ flex: 1 }}>
-                    <img src="/images/card.png" alt="Card" style={{ width: '100%', maxWidth: 400 }} />
+                <Container sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                    <img
+                        src="/images/card.png"
+                        alt="Business Card Example"
+                        style={{ width: '50%', maxWidth: 400 }}
+                    />
                 </Container>
             </Container>
         </Container>

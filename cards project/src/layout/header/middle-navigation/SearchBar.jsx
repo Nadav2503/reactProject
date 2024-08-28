@@ -12,6 +12,7 @@ export default function SearchBar() {
     const searchQuery = searchParams.get('search') || '';
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const isLightMode = theme.palette.mode === 'light';
 
     const handleSearchChange = (event) => {
         const query = event.target.value;
@@ -42,6 +43,17 @@ export default function SearchBar() {
                     width: '100%',
                     maxWidth: isMobile ? 'calc(100vw - 64px)' : '400px',
                     transition: 'width 0.3s',
+                    '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
+                            borderColor: isLightMode ? 'rgba(255, 255, 255, 0.23)' : 'rgba(0, 0, 0, 0.23)',
+                        },
+                        '&:hover fieldset': {
+                            borderColor: isLightMode ? 'rgba(255, 255, 255, 0.87)' : 'rgba(0, 0, 0, 0.87)',
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: isLightMode ? '#90caf9' : "#1976d2",
+                        },
+                    },
                 }}
                 InputProps={{
                     startAdornment: (

@@ -13,9 +13,7 @@ export default function CardsFeedback({
 }) {
     if (isLoading) return <Spinner />;
     if (error) return <Error errorMessage={error} />;
-    if (cards && cards.length === 0) {
-        return <Error errorMessage="Oops... it seems there are no business cards to display" />
-    }
+    if (!cards && cards.length === 0) return <Error errorMessage="Oops...it seems there are no business cards to display" />;
     if (cards)
         return (
             <Cards
