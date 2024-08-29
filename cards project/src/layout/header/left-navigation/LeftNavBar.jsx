@@ -49,10 +49,10 @@ export default function LeftNavBar() {
                     >
                         <MenuItem onClick={() => handleNavigate(ROUTES.ABOUT)}>About</MenuItem>
                         <MenuItem onClick={() => handleNavigate(ROUTES.CARDS)}>Cards</MenuItem>
-                        {user && (user.isAdmin || user.isBusiness) && (
+                        {user && (
                             <MenuItem onClick={() => handleNavigate(ROUTES.FAV_CARDS)}>Favorites</MenuItem>
                         )}
-                        {user && user.isBusiness && (
+                        {user && (user.isAdmin || user.isBusiness) && (
                             <MenuItem onClick={() => handleNavigate(ROUTES.MY_CARDS)}>My Cards</MenuItem>
                         )}
                         <Divider />
@@ -106,7 +106,7 @@ export default function LeftNavBar() {
                     >
                         Cards
                     </Typography>
-                    {user && (user.isAdmin || user.isBusiness) && (
+                    {user && (
                         <Typography
                             variant="body1"
                             onClick={() => handleNavigate(ROUTES.FAV_CARDS)}
@@ -129,7 +129,7 @@ export default function LeftNavBar() {
                             Favorites
                         </Typography>
                     )}
-                    {user && user.isBusiness && (
+                    {user && (user.isAdmin || user.isBusiness) && (
                         <Typography
                             variant="body1"
                             onClick={() => handleNavigate(ROUTES.MY_CARDS)}

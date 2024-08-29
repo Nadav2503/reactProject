@@ -12,7 +12,7 @@ import Spinner from "../../components/Spinner";
 import PageHeader from "../../components/PageHeader";
 
 export default function SignupPage() {
-  const { isLoading, error, handleSignup } = useUsers();
+  const { isLoading, handleSignup } = useUsers();
   const {
     data,
     errors,
@@ -25,23 +25,12 @@ export default function SignupPage() {
 
   const { user } = useCurrentUser();
   if (isLoading) return <Spinner />;
-  if (error) return <Error errorMessage={error} />;
   if (user) return <Navigate to={ROUTES.ROOT} replace />;
 
   return (
     <Container>
-      <PageHeader
-        title="Register"
-        subtitle="Sign up to create a new account"
-      />
-      <Container
-        sx={{
-          paddingTop: 8,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <PageHeader title="Register" subtitle="Sign up to create a new account" />
+      <Container sx={{ paddingTop: 8, display: "flex", justifyContent: "center", alignItems: "center" }}>
         <SignupForm
           onSubmit={onSubmit}
           onReset={handleReset}
@@ -53,6 +42,6 @@ export default function SignupPage() {
           handleChangeCheckBox={handleChangeCheckBox}
         />
       </Container>
-    </Container >
+    </Container>
   );
 }

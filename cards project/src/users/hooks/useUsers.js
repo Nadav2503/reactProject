@@ -9,7 +9,6 @@ import normalizeUser from '../helpers/normalization/normalizeUser';
 
 export default function useUsers() {
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
     const { user, setUser, setToken } = useCurrentUser();
     const navigate = useNavigate();
     const setSnack = useSnack();
@@ -24,11 +23,11 @@ export default function useUsers() {
             setUser(userFromLocalStorage);
             navigate(ROUTES.CARDS);
         } catch (err) {
-            setError(err.message);
-            setSnack("error", err.message);
+            setSnack("error", err.message.includes("400") ? "Invalid login credentials" : err.message);
+        } finally {
+            setIsLoading(false);
         }
-        setIsLoading(false);
-    }, []);
+    }, [navigate, setToken, setUser, setSnack]);
 
     const handleSignup = useCallback(async (user) => {
         setIsLoading(true);
@@ -41,10 +40,11 @@ export default function useUsers() {
             navigate(ROUTES.CARDS);
             await handleLogin({ email: user.email, password: user.password });
         } catch (err) {
-            setError(err.message);
-            setSnack("error", err.message);
+            const errorMessage = err.message || "An error occurred";
+            setSnack("error", errorMessage);
+        } finally {
+            setIsLoading(false);
         }
-        setIsLoading(false);
     }, [handleLogin, navigate, setToken, setUser, setSnack]);
 
     const handleLogout = useCallback(() => {
@@ -60,11 +60,12 @@ export default function useUsers() {
             const userData = await getUserData(id);
             setUser(userData);
         } catch (err) {
-            setError(err.message);
-            setSnack("error", err.message);
+            setSnack("error", err.message.includes("404") ? "User not found" : err.message);
+            navigate(ROUTES.ERROR);
+        } finally {
+            setIsLoading(false);
         }
-        setIsLoading(false);
-    }, [setSnack, setUser]);
+    }, [setSnack, setUser, navigate]);
 
     const handleUpdateUser = useCallback(async (id, userData) => {
         setIsLoading(true);
@@ -74,11 +75,11 @@ export default function useUsers() {
             setSnack("success", "User updated successfully");
             navigate(ROUTES.USER_PROFILE + `/${id}`);
         } catch (err) {
-            setError(err.message);
-            setSnack("error", err.message);
+            setSnack("error", err.message.includes("400") ? "Failed to update user" : err.message);
+        } finally {
+            setIsLoading(false);
         }
-        setIsLoading(false);
     }, [navigate, setSnack]);
 
-    return { isLoading, error, user, handleLogin, handleLogout, handleSignup, getUserById, handleUpdateUser };
+    return { isLoading, user, handleLogin, handleLogout, handleSignup, getUserById, handleUpdateUser };
 }

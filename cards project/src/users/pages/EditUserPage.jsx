@@ -13,7 +13,7 @@ import PageHeader from '../../components/PageHeader';
 
 export default function EditUserPage() {
     const { id } = useParams();
-    const { handleUpdateUser, getUserById, isLoading, error, user } = useUsers();
+    const { handleUpdateUser, getUserById, isLoading, user } = useUsers();
     const {
         data,
         errors,
@@ -31,27 +31,15 @@ export default function EditUserPage() {
         } else {
             getUserById(id);
         }
-    }, [user]);
+    }, [user, id, getUserById, setData]);
 
     if (isLoading) return <Spinner />;
-    if (error) return <Error errorMessage={error} />;
     if (!user) return <Error errorMessage="No user data available" />;
 
     return (
-
         <Container>
-            <PageHeader
-                title="Edit User Details"
-                subtitle="Update your personal information here"
-            />
-            <Container
-                sx={{
-                    paddingTop: 8,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
+            <PageHeader title="Edit User Details" subtitle="Update your personal information here" />
+            <Container sx={{ paddingTop: 8, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <UserForm
                     title="Edit User"
                     onSubmit={onSubmit}

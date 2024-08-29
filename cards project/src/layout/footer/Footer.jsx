@@ -23,14 +23,14 @@ export default function Footer() {
                     icon={<InfoIcon />}
                     onClick={() => navigate(ROUTES.ABOUT)}
                 />
-                {user && (user.isAdmin || user.isBusiness) && (
+                {user && (
                     <BottomNavigationAction
                         label="Favorites"
                         icon={<FavoriteIcon />}
                         onClick={() => navigate(ROUTES.FAV_CARDS)}
                     />
                 )}
-                {user && user.isBusiness && (
+                {user && (user.isAdmin || user.isBusiness) && (
                     <BottomNavigationAction
                         label="My Cards"
                         icon={<AccountBoxIcon />}
