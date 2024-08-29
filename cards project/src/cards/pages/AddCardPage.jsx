@@ -18,7 +18,7 @@ export default function AddCardPage() {
             await handleCreateCard(formData);
             navigate(ROUTES.MY_CARDS);
         } catch (error) {
-            console.error('Failed to create card:', error);
+            throw new error('Failed to create card:', error);
         }
     }, [handleCreateCard]);
 

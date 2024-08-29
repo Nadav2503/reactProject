@@ -44,9 +44,6 @@ export const createCard = async (card) => {
         const { data } = await axios.post(apiUrl, card);
         return data;
     } catch (error) {
-        console.error("Error making request:", error.message);
-        console.error("Request Data:", card);
-        console.error("Response Data:", error.response ? error.response.data : "No response data");
         throw new Error(error.message);
     }
 };
@@ -56,7 +53,6 @@ export const editCard = async (cardId, normalaizedCard) => {
         const { data } = await axios.put(`${apiUrl}/${cardId}`, normalaizedCard);
         return data;
     } catch (error) {
-        console.error("Error making request:", error.message);
         throw new Error(error.message);
     }
 };

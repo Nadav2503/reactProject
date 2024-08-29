@@ -1,7 +1,6 @@
 import React from "react";
 import Spinner from "../../components/Spinner";
 import Error from "../../components/Error";
-import { Typography } from "@mui/material";
 import Cards from "./Cards";
 export default function CardsFeedback({
     isLoading,

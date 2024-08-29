@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Typography, CardMedia, Divider, Paper, Grid } from '@mui/material';
 import PageHeader from '../../components/PageHeader';

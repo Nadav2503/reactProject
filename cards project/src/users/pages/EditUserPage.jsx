@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { Container, Typography } from '@mui/material';
+import { Container } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import UserForm from '../components/UserForm';
 import useUsers from '../hooks/useUsers';
 import useForm from '../../forms/hooks/useForm';
-import normalizeUserForUpdate from '../helpers/normalization/normalizeUserForUpdate';
 import mapUserToModelForUpdate from '../helpers/normalization/mapUserToModelForUpdate';
 import userSchema from '../models/userSchema';
 import initialUserForm from '../helpers/initialForms/initialUserForm';
