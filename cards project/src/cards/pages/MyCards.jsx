@@ -25,23 +25,21 @@ export default function MyCards() {
         <Container>
             <PageHeader
                 title="My Cards"
-                subtitle="Welcome to my cards page"
+                subtitle="Here are all the business cards you have created"
                 sx={{ mb: 4 }}
             />
             <Grid container spacing={4}>
-                {cards.map(card => {
-                    return (
-                        <Grid item xs={12} md={4} key={card._id}>
-                            <CardComponent
-                                card={card}
-                                handleDelete={handleDelete}
-                                handleEdit={handleEditCard}
-                                handleLike={handleLike}
-                                isLiked={card.likes.includes(user ? user._id : '')}
-                            />
-                        </Grid>
-                    );
-                })}
+                {cards.map(card => (
+                    <Grid sx={{ display: "flex", flexWrap: "wrap", mt: 2, ml: 1.5 }} key={card._id}>
+                        <CardComponent
+                            card={card}
+                            handleDelete={handleDelete}
+                            handleEdit={handleEditCard}
+                            handleLike={handleLike}
+                            isLiked={card.likes.includes(user ? user._id : '')}
+                        />
+                    </Grid>
+                ))}
             </Grid>
         </Container>
     );

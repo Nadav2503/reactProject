@@ -27,8 +27,8 @@ export default function LoginPage() {
   return (
     <Container>
       <PageHeader
-        title="Welcome to Login page"
-        subtitle="here you can log in"
+        title="Login"
+        subtitle="Access your account by logging in here"
       />
       <Container
         sx={{

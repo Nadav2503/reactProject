@@ -9,6 +9,7 @@ import cardSchema from "../models/cardSchema";
 import CardComponent from "../components/card/CardComponent";
 import mapCardToModel from "../helpers/normalization/mapCardToModel";
 import normalizeCard from "../helpers/normalization/normalizeCard";
+import PageHeader from "../../components/PageHeader";
 
 export default function EditCardPage() {
     const { id } = useParams();
@@ -34,36 +35,40 @@ export default function EditCardPage() {
     }, [card]);
 
     return (
-        <Container
-            sx={{
-                paddingTop: 8,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: 4,
-            }}
-        >
-            {card && (
-                <CardComponent
-                    card={{ _id: id, ...normalizeCard(data) }}
-                    handleDelete={() => { }}
-                    handleEdit={() => { }}
-                    handleLike={() => { }}
+        <Container>
+            <PageHeader
+                title="Edit Your Card"
+                subtitle="Modify the details of your business card here"
+            />
+            <Container
+                sx={{
+                    paddingTop: 8,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 4,
+                }}
+            >
+                {card && (
+                    <CardComponent
+                        card={{ _id: id, ...normalizeCard(data) }}
+                        handleDelete={() => { }}
+                        handleEdit={() => { }}
+                        handleLike={() => { }}
+                        sx={{ width: '100%', maxWidth: 600 }}
+                    />
+                )}
+                <CardForm
+                    title="Edit Card"
+                    onSubmit={onSubmit}
+                    onReset={handleReset}
+                    errors={errors}
+                    validateForm={validateForm}
+                    onInputChange={handleChange}
+                    data={data}
                     sx={{ width: '100%', maxWidth: 600 }}
                 />
-            )}
-            <CardForm
-                title="Edit Card"
-                onSubmit={onSubmit}
-                onReset={handleReset}
-                errors={errors}
-                validateForm={validateForm}
-                onInputChange={handleChange}
-                data={data}
-                sx={{ width: '100%', maxWidth: 600 }}
-            />
-
-
+            </Container>
         </Container>
     );
 }

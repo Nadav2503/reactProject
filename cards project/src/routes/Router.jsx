@@ -1,12 +1,11 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import CardsPage from "../cards/pages/CardsPage";
 import AboutPage from "../pages/AboutPage";
 import ErrorPage from "../pages/ErrorPage";
 import ROUTES from "./routesModel";
 import FavoriteCards from "../cards/pages/FavoriteCards";
 import MyCards from "../cards/pages/MyCards";
-import SandBoxPage from "../sandbox/SandBoxPage";
 import LoginPage from "../users/pages/LoginPage";
 import SignupPage from "../users/pages/SignupPage";
 import CardDetailsPage from "../cards/pages/CardDetailsPage";
@@ -30,7 +29,6 @@ export default function Router() {
             <Route path={ROUTES.USER_PROFILE + "/:id"} element={<UserProfilePage />} />
             <Route path={ROUTES.EDIT_USER + "/:id"} element={<EditUserPage />} />
             <Route path={ROUTES.ADD_CARDS} element={<AddCardPage />} />
-            <Route path={ROUTES.SANDBOX} element={<SandBoxPage />} />
             <Route path="*" element={<ErrorPage />} />
         </Routes>
     );

@@ -38,6 +38,7 @@ export default function CardComponent({
         handleLike={handleLike}
         isLiked={isLiked}
         cardOwnerId={card.user_id}
+        phone={card.phone}
       />
     </Card>
   );

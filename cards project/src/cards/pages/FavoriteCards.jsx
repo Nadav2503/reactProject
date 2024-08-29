@@ -23,12 +23,12 @@ export default function FavoritesPage() {
         <Container >
             <PageHeader
                 title="Favorite Cards"
-                subtitle="Welcome to favorite cards page"
+                subtitle="Here are all the business cards you've marked as favorites"
                 sx={{ mb: 4 }}
             />
             <Grid container spacing={4}>
                 {cards.map(card => (
-                    <Grid item xs={12} md={4} key={card._id}>
+                    <Grid sx={{ display: "flex", flexWrap: "wrap", mt: 2, ml: 1.5 }} key={card._id}>
                         <CardComponent
                             card={card}
                             handleDelete={handleDelete}

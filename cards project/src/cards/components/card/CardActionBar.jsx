@@ -14,7 +14,8 @@ export default function CardActionBar({
     handleDelete,
     handleLike,
     isLiked,
-    cardOwnerId
+    cardOwnerId,
+    phone
 }) {
     const { user } = useCurrentUser();
     const navigate = useNavigate();
@@ -30,6 +31,12 @@ export default function CardActionBar({
 
     const handleConfirmDelete = () => {
         handleDelete(cardId);
+    };
+
+    const handleCallClick = () => {
+        if (phone) {
+            window.location.href = `tel:${phone}`;
+        }
     };
 
     return (
@@ -49,11 +56,11 @@ export default function CardActionBar({
                     )}
                 </Box>
                 <Box>
-                    <IconButton>
+                    <IconButton onClick={handleCallClick}>
                         <CallIcon />
                     </IconButton>
 
-                    {isLoggedIn && handleLike && (
+                    {isLoggedIn && (
                         <IconButton onClick={() => handleLike(cardId)}>
                             <FavoriteIcon color={isLiked ? "error" : "action"} />
                         </IconButton>

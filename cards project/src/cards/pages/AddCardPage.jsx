@@ -6,6 +6,8 @@ import useForm from '../../forms/hooks/useForm';
 import useCards from '../hooks/useCards';
 import ROUTES from '../../routes/routesModel';
 import { useNavigate } from 'react-router-dom';
+import { Container } from '@mui/material';
+import PageHeader from '../../components/PageHeader';
 
 export default function AddCardPage() {
     const { handleCreateCard } = useCards();
@@ -30,16 +32,27 @@ export default function AddCardPage() {
     } = useForm(initialCardForm, cardSchema, handleSubmit);
 
     return (
-        <div>
-            <CardForm
-                title="Add New Card"
-                onSubmit={onSubmit}
-                onReset={handleReset}
-                validateForm={validateForm}
-                errors={errors}
-                data={data}
-                onInputChange={handleChange}
+        <Container>
+            <PageHeader
+                title="Create Your Card"
+                subtitle="Add a new business card to the platform"
             />
-        </div>
+            <Container sx={{
+                paddingTop: 8,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+            }}>
+                <CardForm
+                    title="Add New Card"
+                    onSubmit={onSubmit}
+                    onReset={handleReset}
+                    validateForm={validateForm}
+                    errors={errors}
+                    data={data}
+                    onInputChange={handleChange}
+                />
+            </Container>
+        </Container>
     );
 }

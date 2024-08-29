@@ -9,6 +9,7 @@ import { Container } from "@mui/material";
 import SignupForm from "../components/SignupForm";
 import useUsers from "../hooks/useUsers";
 import Spinner from "../../components/Spinner";
+import PageHeader from "../../components/PageHeader";
 
 export default function SignupPage() {
   const { isLoading, error, handleSignup } = useUsers();
@@ -28,24 +29,30 @@ export default function SignupPage() {
   if (user) return <Navigate to={ROUTES.ROOT} replace />;
 
   return (
-    <Container
-      sx={{
-        paddingTop: 8,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <SignupForm
-        onSubmit={onSubmit}
-        onReset={handleReset}
-        validateForm={validateForm}
-        title={"register form"}
-        errors={errors}
-        data={data}
-        onInputChange={handleChange}
-        handleChangeCheckBox={handleChangeCheckBox}
+    <Container>
+      <PageHeader
+        title="Register"
+        subtitle="Sign up to create a new account"
       />
-    </Container>
+      <Container
+        sx={{
+          paddingTop: 8,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <SignupForm
+          onSubmit={onSubmit}
+          onReset={handleReset}
+          validateForm={validateForm}
+          title={"register form"}
+          errors={errors}
+          data={data}
+          onInputChange={handleChange}
+          handleChangeCheckBox={handleChangeCheckBox}
+        />
+      </Container>
+    </Container >
   );
 }

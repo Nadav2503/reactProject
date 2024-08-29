@@ -3,7 +3,6 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import useAnchor from '../hooks/useAnchor';
 
-
 const AnchorComponent = ({ buttonComponent, menuItems }) => {
     const { anchorEl, open, openAnchor, closeAnchor } = useAnchor();
 

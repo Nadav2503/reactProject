@@ -10,6 +10,7 @@ import userSchema from '../models/userSchema';
 import initialUserForm from '../helpers/initialForms/initialUserForm';
 import Spinner from '../../components/Spinner';
 import Error from '../../components/Error';
+import PageHeader from '../../components/PageHeader';
 
 export default function EditUserPage() {
     const { id } = useParams();
@@ -38,7 +39,12 @@ export default function EditUserPage() {
     if (!user) return <Error errorMessage="No user data available" />;
 
     return (
-        <div>
+
+        <Container>
+            <PageHeader
+                title="Edit User Details"
+                subtitle="Update your personal information here"
+            />
             <Container
                 sx={{
                     paddingTop: 8,
@@ -58,6 +64,6 @@ export default function EditUserPage() {
                     data={data}
                 />
             </Container>
-        </div>
+        </Container>
     );
 }

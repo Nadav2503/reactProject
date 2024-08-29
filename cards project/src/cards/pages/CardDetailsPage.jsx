@@ -21,7 +21,7 @@ export default function CardDetailsPage() {
         <Container >
             <PageHeader
                 title="Card Details"
-                subtitle="Here you can find detailed information about the card"
+                subtitle="View detailed information about this business card"
                 sx={{ mb: 4 }}
             />
             <Grid container spacing={4} justifyContent="center">

@@ -32,6 +32,8 @@ export default function Logged() {
     const { anchorEl, open, openAnchor, closeAnchor } = useAnchor();
     const { isDark, toggleDarkMode } = useTheme();
 
+    const menuItems = MenuItems({ user, handleLogout, toggleDarkMode, isDark, closeAnchor });
+
     return (
         <div>
             <Tooltip title="Open settings">
@@ -44,8 +46,8 @@ export default function Logged() {
                 open={open}
                 onClose={closeAnchor}
             >
-                {MenuItems({ user, handleLogout, toggleDarkMode, isDark, closeAnchor }).map((item, index) => (
-                    <React.Fragment key={index}>
+                {menuItems.map((item, index) => (
+                    <div key={index}>
                         <MenuItem
                             component={item.label === 'Logout' ? 'button' : Link}
                             to={item.label === 'Logout' ? undefined : item.onClick ? undefined : `${ROUTES.LOGIN}`}
@@ -54,8 +56,8 @@ export default function Logged() {
                             {item.icon && <span style={{ marginRight: 8 }}>{item.icon}</span>}
                             {item.label}
                         </MenuItem>
-                        {item.label === 'Logout' && <Divider />}
-                    </React.Fragment>
+                        {item.label === 'Logout' && index < menuItems.length - 1 && <Divider />}
+                    </div>
                 ))}
             </Menu>
         </div>
