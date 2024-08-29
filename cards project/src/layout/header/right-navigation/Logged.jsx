@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
@@ -11,6 +11,7 @@ import { Menu, MenuItem, Divider } from '@mui/material';
 import { useTheme } from '../../../providers/CustomThemeProvider';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import ConfirmDialog from '../../../components/ConfirmDialog';
 
 const MenuItems = ({ user, handleLogout, toggleDarkMode, isDark, closeAnchor }) => [
     { label: 'Profile', onClick: () => { window.location.href = `${ROUTES.USER_PROFILE}/${user._id}`; closeAnchor(); } },
@@ -31,8 +32,18 @@ export default function Logged() {
     const { user } = useCurrentUser();
     const { anchorEl, open, openAnchor, closeAnchor } = useAnchor();
     const { isDark, toggleDarkMode } = useTheme();
+    const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
-    const menuItems = MenuItems({ user, handleLogout, toggleDarkMode, isDark, closeAnchor });
+    const handleLogoutClick = () => {
+        setConfirmDialogOpen(true);
+    };
+
+    const handleConfirmLogout = () => {
+        handleLogout();
+        setConfirmDialogOpen(false);
+    };
+
+    const menuItems = MenuItems({ user, handleLogout: handleLogoutClick, toggleDarkMode, isDark, closeAnchor });
 
     return (
         <div>
@@ -60,6 +71,13 @@ export default function Logged() {
                     </div>
                 ))}
             </Menu>
+            <ConfirmDialog
+                open={confirmDialogOpen}
+                onClose={() => setConfirmDialogOpen(false)}
+                onConfirm={handleConfirmLogout}
+                title="Confirm Logout"
+                message="Are you sure you want to log out?"
+            />
         </div>
     );
 }
