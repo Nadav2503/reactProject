@@ -19,7 +19,7 @@ export default function MyCards() {
 
     if (isLoading) return <Spinner />;
     if (error) return <Error errorMessage={error} />;
-    if (!cards) return <Error errorMessage="No cards found" />;
+    if (!cards || cards.length === 0) return <Error errorMessage="No cards found" />;
 
     return (
         <Container>
@@ -28,19 +28,18 @@ export default function MyCards() {
                 subtitle="Here are all the business cards you have created"
                 sx={{ mb: 4 }}
             />
-            <Grid container spacing={4}>
+            <Container sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                 {cards.map(card => (
-                    <Grid sx={{ display: "flex", flexWrap: "wrap", mt: 2, ml: 1.5 }} key={card._id}>
-                        <CardComponent
-                            card={card}
-                            handleDelete={handleDelete}
-                            handleEdit={handleEditCard}
-                            handleLike={handleLike}
-                            isLiked={card.likes.includes(user ? user._id : '')}
-                        />
-                    </Grid>
+                    <CardComponent
+                        card={card}
+                        key={card._id}
+                        handleDelete={handleDelete}
+                        handleEdit={handleEditCard}
+                        handleLike={handleLike}
+                        isLiked={card.likes.includes(user ? user._id : '')}
+                    />
                 ))}
-            </Grid>
+            </Container>
         </Container>
     );
 }

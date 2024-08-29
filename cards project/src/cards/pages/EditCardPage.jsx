@@ -6,9 +6,7 @@ import useCards from "../hooks/useCards";
 import useForm from "../../forms/hooks/useForm";
 import initialCardForm from "../helpers/initialForms/initialCardForm";
 import cardSchema from "../models/cardSchema";
-import CardComponent from "../components/card/CardComponent";
 import mapCardToModel from "../helpers/normalization/mapCardToModel";
-import normalizeCard from "../helpers/normalization/normalizeCard";
 import PageHeader from "../../components/PageHeader";
 
 export default function EditCardPage() {
@@ -42,22 +40,11 @@ export default function EditCardPage() {
             />
             <Container
                 sx={{
-                    paddingTop: 8,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    gap: 4,
                 }}
             >
-                {card && (
-                    <CardComponent
-                        card={{ _id: id, ...normalizeCard(data) }}
-                        handleDelete={() => { }}
-                        handleEdit={() => { }}
-                        handleLike={() => { }}
-                        sx={{ width: '100%', maxWidth: 600 }}
-                    />
-                )}
                 <CardForm
                     title="Edit Card"
                     onSubmit={onSubmit}

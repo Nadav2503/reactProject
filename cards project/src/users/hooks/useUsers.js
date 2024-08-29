@@ -23,7 +23,8 @@ export default function useUsers() {
             setUser(userFromLocalStorage);
             navigate(ROUTES.CARDS);
         } catch (err) {
-            setSnack("error", err.message.includes("400") ? "Invalid login credentials" : err.message);
+            const errorMessage = err.response?.data?.message || err.message || "An unexpected error occurred";
+            setSnack("error", errorMessage);
         } finally {
             setIsLoading(false);
         }
@@ -40,7 +41,7 @@ export default function useUsers() {
             navigate(ROUTES.CARDS);
             await handleLogin({ email: user.email, password: user.password });
         } catch (err) {
-            const errorMessage = err.message || "An error occurred";
+            const errorMessage = err.response?.data?.message || err.message || "An unexpected error occurred";
             setSnack("error", errorMessage);
         } finally {
             setIsLoading(false);
@@ -60,7 +61,8 @@ export default function useUsers() {
             const userData = await getUserData(id);
             setUser(userData);
         } catch (err) {
-            setSnack("error", err.message.includes("404") ? "User not found" : err.message);
+            const errorMessage = err.response?.data?.message || err.message || "An unexpected error occurred";
+            setSnack("error", errorMessage);
             navigate(ROUTES.ERROR);
         } finally {
             setIsLoading(false);
@@ -75,7 +77,8 @@ export default function useUsers() {
             setSnack("success", "User updated successfully");
             navigate(ROUTES.USER_PROFILE + `/${id}`);
         } catch (err) {
-            setSnack("error", err.message.includes("400") ? "Failed to update user" : err.message);
+            const errorMessage = err.response?.data?.message || err.message || "An unexpected error occurred";
+            setSnack("error", errorMessage);
         } finally {
             setIsLoading(false);
         }

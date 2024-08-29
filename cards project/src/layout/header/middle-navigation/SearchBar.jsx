@@ -2,23 +2,24 @@ import React, { useState } from 'react';
 import { Box, IconButton, TextField, InputAdornment, useMediaQuery, useTheme } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export default function SearchBar() {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
-    const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const searchQuery = searchParams.get('search') || '';
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const isLightMode = theme.palette.mode === 'light';
+    const [searchParams, setSearchParams] = useSearchParams();
+    const searchQuery = searchParams.get('search') || '';
 
     const handleSearchChange = (event) => {
         const query = event.target.value;
         if (query) {
+            setSearchParams({ search: query });
             navigate(`/cards?search=${encodeURIComponent(query)}`);
         } else {
+            setSearchParams({});
             navigate('/cards');
         }
     };

@@ -6,7 +6,7 @@ export default function Cards({ cards, handleDelete, handleLike, handleEdit }) {
 
     return (
         <>
-            <Container sx={{ display: "flex", flexWrap: "wrap" }}>
+            <Container sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
                 {cards.map((card) => (
                     <CardComponent
                         card={card}

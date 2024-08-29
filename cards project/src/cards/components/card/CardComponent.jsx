@@ -28,6 +28,7 @@ export default function CardComponent({
         <CardBody
           phone={card.phone}
           address={card.address}
+          bizNumber={card.bizNumber}
           email={card.email}
         />
       </CardActionArea>

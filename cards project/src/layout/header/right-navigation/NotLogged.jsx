@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { Box, IconButton, Avatar, Tooltip, Menu, MenuItem } from '@mui/material';
+import { Box, IconButton, Avatar, Tooltip, Menu, MenuItem, Divider } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ROUTES from '../../../routes/routesModel';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import { useTheme } from '../../../providers/CustomThemeProvider';
 
 export default function NotLogged() {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const { isDark, toggleDarkMode } = useTheme();
 
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -13,6 +17,11 @@ export default function NotLogged() {
 
     const handleMenuClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleToggleDarkMode = () => {
+        toggleDarkMode();
+        handleMenuClose();
     };
 
     return (
@@ -39,8 +48,12 @@ export default function NotLogged() {
                 <MenuItem component={Link} to={ROUTES.LOGIN} onClick={handleMenuClose}>
                     Login
                 </MenuItem>
+                <Divider />
+                <MenuItem onClick={handleToggleDarkMode}>
+                    {isDark ? <LightModeIcon sx={{ mr: 1 }} /> : <DarkModeIcon sx={{ mr: 1 }} />}
+                    {isDark ? 'Light Mode' : 'Dark Mode'}
+                </MenuItem>
             </Menu>
-
         </Box>
     );
 }
