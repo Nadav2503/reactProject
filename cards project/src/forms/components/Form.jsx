@@ -16,6 +16,7 @@ const Form = ({
   spacing = 1,
   styles = {},
   children,
+  isLocked = false,
 }) => {
   const navigate = useNavigate();
 
@@ -58,7 +59,7 @@ const Form = ({
           <FormButton
             node="Submit"
             onClick={onSubmit}
-            disabled={!validateForm()}
+            disabled={isLocked || !validateForm()}
             size="large"
           />
         </Grid>

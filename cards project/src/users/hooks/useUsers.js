@@ -1,6 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useCurrentUser } from '../providers/UserProvider';
-import { setTokenInLocalStorage, removeToken, getUser } from '../services/localStorageService';
+import { setTokenInLocalStorage, removeToken, getUser, getLoginAttempts, incrementLoginAttempts, resetLoginAttempts, getLockStatus } from '../services/localStorageService';
 import { login, signup, getUserData, updateUser } from '../services/usersApiService';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../routes/routesModel';
@@ -9,22 +9,49 @@ import normalizeUser from '../helpers/normalization/normalizeUser';
 
 export default function useUsers() {
     const [isLoading, setIsLoading] = useState(false);
+    const [isLocked, setIsLocked] = useState(false);
+    const [remainingAttempts, setRemainingAttempts] = useState(null);
     const { user, setUser, setToken } = useCurrentUser();
     const navigate = useNavigate();
     const setSnack = useSnack();
 
+    useEffect(() => {
+        const { locked } = getLockStatus();
+        setIsLocked(locked);
+        if (!locked) {
+            const { count } = getLoginAttempts();
+            setRemainingAttempts(Math.max(0, 3 - count));
+        }
+    }, []);
+
     const handleLogin = useCallback(async (userLogin) => {
         setIsLoading(true);
+        const { locked } = getLockStatus();
+        if (locked) {
+            setIsLocked(true);
+            setIsLoading(false);
+            setSnack("error", "Your account is temporarily locked. Try again later.");
+            return;
+        }
+
         try {
             const token = await login(userLogin);
             setTokenInLocalStorage(token);
             setToken(token);
             const userFromLocalStorage = getUser();
             setUser(userFromLocalStorage);
+            resetLoginAttempts();
             navigate(ROUTES.CARDS);
         } catch (err) {
+            incrementLoginAttempts();
             const errorMessage = err.response?.data?.message || err.message || "An unexpected error occurred";
             setSnack("error", errorMessage);
+            const { locked } = getLockStatus();
+            setIsLocked(locked);
+            if (!locked) {
+                const { count } = getLoginAttempts();
+                setRemainingAttempts(Math.max(0, 3 - count));
+            }
         } finally {
             setIsLoading(false);
         }
@@ -84,5 +111,5 @@ export default function useUsers() {
         }
     }, [navigate, setSnack]);
 
-    return { isLoading, user, handleLogin, handleLogout, handleSignup, getUserById, handleUpdateUser };
+    return { isLoading, user, isLocked, remainingAttempts, handleLogin, handleLogout, handleSignup, getUserById, handleUpdateUser };
 }
