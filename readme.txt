@@ -36,6 +36,9 @@ npm install
 npm install @mui/material @emotion/react @emotion/styled
 npm install @fontsource/roboto
 npm install @mui/icons-material
+npm i react-router-dom
+npm i joi
+npm i jwt-decode
 npm run dev
 הנקודה בפעולה הראשונה מוודאת שהכל מותקן בתיקייה הנכונה
 5)לחצו על הקישור שנוצר בטרמינל בעזרת ctrl + קליק שמאלי בעכבר
