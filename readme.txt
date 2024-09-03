@@ -29,6 +29,7 @@
 אם אתם לא בpath הנכון רשמו את הפקודה cd ואת התיקייה של הפרויקט לדוגמה:
 PS C:\Users\owner\Desktop\nadav\studies\מבחנים\קורסמורחב\reactProject>
 לא path נכון לכן נוסיף cd cards project
+או cd and tab button until you reach the right folder
 4)לאחר מכן רשמו את הפעולות הבאות בסדר הבא:
 npm create vite@latest .
 npm install
