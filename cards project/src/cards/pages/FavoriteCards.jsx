@@ -6,6 +6,7 @@ import PageHeader from '../../components/PageHeader';
 import { useCurrentUser } from '../../users/providers/UserProvider';
 import Spinner from '../../components/Spinner';
 import Error from '../../components/Error';
+import { Navigate } from 'react-router-dom';
 
 export default function FavoritesPage() {
     const { cards, isLoading, error, getFavoriteCards, handleLike, handleDelete, handleEditCard } = useCards();
@@ -15,6 +16,7 @@ export default function FavoritesPage() {
         getFavoriteCards();
     }, [getFavoriteCards]);
 
+    if (!user) return <Navigate to="/" replace />;
     if (isLoading) return <Spinner />;
     if (error) return <Error errorMessage={error} />;
     if (!cards || cards.length === 0) return <Error errorMessage="No cards found" />;
@@ -32,7 +34,7 @@ export default function FavoritesPage() {
                         card={card}
                         key={card._id}
                         handleDelete={handleDelete}
-                        handleEdit={handleEditCard}
+                        handleEditCard={handleEditCard}
                         handleLike={handleLike}
                         isLiked={card.likes.includes(user._id)}
                     />

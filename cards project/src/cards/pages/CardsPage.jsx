@@ -23,9 +23,10 @@ export default function CardsPage() {
     if (cards) {
       setFilteredCards(
         cards.filter(card =>
-          card.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          card.description.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+          card && (
+            card.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            card.description.toLowerCase().includes(searchQuery.toLowerCase())
+          ))
       );
     }
   }, [cards, searchQuery]);

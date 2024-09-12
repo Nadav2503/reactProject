@@ -135,7 +135,7 @@ export default function useCards() {
                 } else {
                     return prevCards.map(card =>
                         card._id === id
-                            ? { ...card, likes: card.likes.includes(user._id) ? card.likes.filter(like => like !== user._id) : [...card.likes, user._id] }
+                            ? { ...card, likes: [...card.likes, user._id] }
                             : card
                     );
                 }

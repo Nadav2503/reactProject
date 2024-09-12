@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { Container, Grid } from '@mui/material';
+import { Container } from '@mui/material';
 import PageHeader from '../../components/PageHeader';
 import Spinner from '../../components/Spinner';
 import Error from '../../components/Error';
 import useCards from '../hooks/useCards';
 import CardComponent from '../components/card/CardComponent';
 import { useCurrentUser } from '../../users/providers/UserProvider';
+import { Navigate } from 'react-router-dom';
 
 export default function MyCards() {
     const { cards, isLoading, error, getMyCards, handleDelete, handleEditCard, handleLike } = useCards();
@@ -17,6 +18,8 @@ export default function MyCards() {
         }
     }, [user, getMyCards]);
 
+    if (!user) return <Navigate to="/" replace />;
+    if (!user.isBusiness && !user.isAdmin) return <Navigate to="/" replace />;
     if (isLoading) return <Spinner />;
     if (error) return <Error errorMessage={error} />;
     if (!cards || cards.length === 0) return <Error errorMessage="No cards found" />;
@@ -34,9 +37,9 @@ export default function MyCards() {
                         card={card}
                         key={card._id}
                         handleDelete={handleDelete}
-                        handleEdit={handleEditCard}
+                        handleEditCard={handleEditCard}
                         handleLike={handleLike}
-                        isLiked={card.likes.includes(user ? user._id : '')}
+                        isLiked={card.likes.includes(user._id)}
                     />
                 ))}
             </Container>

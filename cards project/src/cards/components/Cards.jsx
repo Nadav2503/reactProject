@@ -14,6 +14,7 @@ export default function Cards({ cards, handleDelete, handleLike, handleEdit }) {
                         handleDelete={handleDelete}
                         handleLike={handleLike}
                         handleEditCard={handleEdit}
+
                     />
                 ))}
             </Container>
